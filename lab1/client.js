@@ -1,4 +1,6 @@
 
+var welcomeView;
+var profileView;
 
 
 setBody = function(view){
@@ -7,9 +9,16 @@ setBody = function(view){
 
 
 window.onload = function(){
-
-  var welcomeView = document.getElementById("welcomeView");
-  var profileView = document.getElementById("welcomeView");
+  welcomeView = document.getElementById("welcomeView");
+  profileView = document.getElementById("profileView");
 
   setBody(welcomeView);
 };
+
+login = function(){
+  setBody(profileView);
+}
+
+logout = function(){
+  setBody(welcomeView);
+}

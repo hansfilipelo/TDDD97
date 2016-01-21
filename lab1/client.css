@@ -1,20 +1,58 @@
 
+body {
+  text-align: center;
+  background-color: #DDDDDD;
+ }
+
+/* -------------------------- */
+/* welcomeView */
+
+ .wView {
+  text-align: center;
+  margin: auto;
+  width: 90%;
+  height: 500px;
+}
+
 .logo {
   float: left;
+  border-style: solid;
+  border-radius: 4px;
+  margin: 10px;
+  background-color: #FFFFFF;
+  height: inherit;
 }
 
 .accountArea {
   float: left;
-  height: 400px;
-  display: table-cell;
+  min-height: 400px;
+  margin: 15px;
+  height: inherit;
+  line-height: 150%;
+  text-align: center;
 }
 
 .signIn {
-  text-align: center;
+  text-align: inherit;;
+  min-height: 177px;
   vertical-align: middle;
+  border-style: solid;
+  border-radius: 4px;
+  padding: 10px;
+  margin: inherit;
+  line-height: inherit;
 }
 
 .signUp {
-  text-align: center;
+  text-align: inherit;;
+  min-height: 178px;
   vertical-align: middle;
+  border-style: solid;
+  border-radius: 4px;
+  padding: 10px;
+  margin: inherit;
+  line-height: inherit;
 }
+
+/* -------------------------- */
+/* profileView */
