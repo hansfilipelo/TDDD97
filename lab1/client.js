@@ -8,8 +8,6 @@ setBody = function(view){
 
 window.onload = function(){
 
-  window.alert("Hello TDDD97!");
-
   var welcomeView = document.getElementById("welcomeView");
   var profileView = document.getElementById("welcomeView");
 

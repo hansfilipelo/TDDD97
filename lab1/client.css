@@ -1,0 +1,20 @@
+
+.logo {
+  float: left;
+}
+
+.accountArea {
+  float: left;
+  height: 400px;
+  display: table-cell;
+}
+
+.signIn {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.signUp {
+  text-align: center;
+  vertical-align: middle;
+}
