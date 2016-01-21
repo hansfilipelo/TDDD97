@@ -1,13 +1,17 @@
 
 
 
-displayView = function(){
-  // the code required to display a view
-};
+setBody = function(view){
+  document.getElementById("body").innerHTML = view.innerHTML;
+};
 
 
 window.onload = function(){
-  //code that is executed as the page is loaded.
-  //You shall put your own custom code here.
-  window.alert("Hello TDDD97!");
-};
+
+  window.alert("Hello TDDD97!");
+
+  var welcomeView = document.getElementById("welcomeView");
+  var profileView = document.getElementById("welcomeView");
+
+  setBody(welcomeView);
+};
