@@ -17,38 +17,42 @@
       </div>
       <div class="accountArea">
 
-        <div class="signIn">
+        <div class="signIn" id="signInArea">
           <form action="javascript:login();">
-            Email:
-            <input type="text" name="Email"><br>
-            Password:
-            <input type="text" name="Password"><br>
+            <label for="password">Email:</label>
+            <input type="email" name="email" id="email" required/><br>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required/><br>
              <input type="submit" value="Login">
           </form>
+          <div class="signInErrorArea" id="signInErrorArea">
+          </div>
         </div>
 
         <div class="signUp">
-          <form action="javascript:login();">
-            First name:
-            <input type="text" name="First name"><br>
-            Last name:
-            <input type="text" name="Last name"><br>
-            <select>
+          <form action="javascript:signUp();">
+            <label for="firstname">First name:</label>
+            <input type="text" id="firstname" name="firstname" required/><br>
+            <label for="lastname">Last name:</label>
+            <input type="text" id="lastname" name="lastname" required/><br>
+            <select id="gender">
               <option value="male">Male</option>
               <option value="female">Female</option>
             </select> <br>
-            City:
-            <input type="text" name="City"><br>
-            Country:
-            <input type="text" name="Country"><br>
-            Email:
-            <input type="text" name="Email"><br>
-            Password:
-            <input type="text" name="Password"><br>
-            Repeat password:
-            <input type="text" name="repeatPassword"><br>
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required/><br>
+            <label for="country">Country:</label>
+            <input type="text" name="country" id="country" required/><br>
+            <label for="signup-email">Email:</label>
+            <input type="email" name="signup-email" id="signup-email" required/><br>
+            <label for="signup-password">Password:</label>
+            <input type="password" name="signup-password" id="signup-password" required/><br>
+            <label for="signup-repeat-password">Repeat password:</label>
+            <input type="password" name="signup-repeat-password" id="signup-repeat-password" required/><br>
              <input type="submit" value="Login">
           </form>
+          <div class="signInErrorArea" id="signUpErrorArea">
+          </div>
         </div>
 
       </div>

@@ -15,10 +15,43 @@ window.onload = function(){
   setBody(welcomeView);
 };
 
+// ------------
+// login / logout
+
 login = function(){
-  setBody(profileView);
+  var email = document.getElementById("email").value;
+  var password = document.getElementById("password").value;
+
+  var errorArea = document.getElementById("signInErrorArea");
+
+  if (password.length < 7){
+    errorArea.innerHTML = "Password need to be at least 7 characters.";
+  }
+  else{
+    setBody(profileView);
+  }
 }
 
 logout = function(){
-  setBody(welcomeView);
+
+}
+
+
+// ------------
+// sign up
+
+signUp = function(){
+  var password = document.getElementById("signup-password").value;
+  var repeatPassword = document.getElementById("signup-repeat-password").value;
+  var errorArea = document.getElementById("signUpErrorArea");
+
+  if (password.length < 7) {
+    errorArea.innerHTML = "Password need to be at least 7 characters.";
+  }
+  else if ( password != repeatPassword) {
+    errorArea.innerHTML = "Passwords does not match!";
+  }
+  else{
+    setBody(welcomeView);
+  }
 }

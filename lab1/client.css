@@ -43,6 +43,10 @@ body {
   line-height: inherit;
 }
 
+.signInErrorArea {
+  color: red;
+}
+
 .signUp {
   text-align: inherit;;
   min-height: 178px;
