@@ -28,7 +28,14 @@ login = function(){
     errorArea.innerHTML = "Password need to be at least 7 characters.";
   }
   else{
-    setBody(profileView);
+    var returnCode = serverstub.signIn(email,password);
+
+    if (returnCode.success == true){
+      setBody(profileView);
+    }
+    else{
+      errorArea.innerHTML = returnCode.message;
+    }
   }
 }
 
