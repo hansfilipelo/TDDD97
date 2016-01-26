@@ -63,6 +63,33 @@
   <script type="text/view" id="profileView">
     <div>
       Inloggad!<br>
+
+      <div class="tabs">
+        <div class="tab">
+          <input type="radio" id="home" name="tab-group-1" checked>
+          <label for="home">Home</label>
+          <div class="content">
+            Home
+          </div>
+        </div>
+
+        <div class="tab">
+          <input type="radio" id="browse" name="tab-group-1">
+          <label for="browse">Browse</label>
+          <div class="content">
+            Browse
+          </div>
+        </div>
+
+        <div class="tab">
+          <input type="radio" id="account" name="tab-group-1">
+          <label for="account">Account</label>
+          <div class="content">
+            Account
+          </div>
+        </div>
+      </div>
+
       <form action="javascript:logout();">
          <input type="submit" value="Logout">
       </form>
