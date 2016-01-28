@@ -2,12 +2,12 @@
 body {
   text-align: center;
   background-color: #DDDDDD;
- }
+}
 
 /* -------------------------- */
 /* welcomeView */
 
- .wView {
+.wView {
   text-align: center;
   margin: auto;
   width: 90%;
@@ -33,7 +33,7 @@ body {
 }
 
 .signIn {
-  text-align: inherit;;
+  text-align: inherit;
   min-height: 177px;
   vertical-align: middle;
   border-style: solid;
@@ -48,7 +48,7 @@ body {
 }
 
 .signUp {
-  text-align: inherit;;
+  text-align: inherit;
   min-height: 178px;
   vertical-align: middle;
   border-style: solid;
@@ -63,7 +63,7 @@ body {
 
 .tabs {
   position: relative;
-  min-height: 200px; /* This part sucks */
+  min-height: 800px; /* This part sucks */
   clear: both;
   margin: 25px 0;
 }
@@ -98,4 +98,50 @@ body {
 }
 [type=radio]:checked ~ label ~ .content {
   z-index: 1;
+}
+
+/* Home ---------------- */
+
+.infoArea {
+  float: left;
+  border-style: solid;
+  border-radius: 4px;
+  margin-top: 30px;
+  padding: 5px;
+  min-width: 35%;
+  min-height: 80%;
+  background-color: #FFFFFF;
+  height: inherit;
+}
+
+.entireWall {
+  float: left;
+  min-width: 60%;
+  min-height: 80%;
+  margin: 15px;
+  height: inherit;
+  line-height: 150%;
+  text-align: center;
+}
+
+.postArea {
+  text-align: inherit;
+  height: 15%;
+  vertical-align: middle;
+  border-style: solid;
+  border-radius: 4px;
+  padding: 5px;
+  margin: inherit;
+  line-height: inherit;
+}
+
+.wallArea {
+  text-align: inherit;
+  height: 60%;
+  vertical-align: middle;
+  border-style: solid;
+  border-radius: 4px;
+  padding: 5px;
+  margin: inherit;
+  line-height: inherit;
 }

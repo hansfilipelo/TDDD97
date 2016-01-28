@@ -1,7 +1,7 @@
 
 var welcomeView;
 var profileView;
-
+var userToken;
 
 setBody = function(view){
   document.getElementById("body").innerHTML = view.innerHTML;
@@ -31,6 +31,7 @@ login = function(){
     var returnCode = serverstub.signIn(email,password);
 
     if (returnCode.success == true){
+      userToken = returnCode.data;
       setBody(profileView);
     }
     else{
