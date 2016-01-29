@@ -15,6 +15,48 @@ window.onload = function(){
   setBody(welcomeView);
 };
 
+// -------- Show user info
+
+userInfo = function () {
+  var returnCode = serverstub.getUserDataByToken(userToken);
+  var userData = returnCode.data;
+
+  if (returnCode.success == false) {
+    document.getElementById("info-area").innerHTML = returnCode.message;
+  }
+  else {
+    document.getElementById("info-email").innerHTML = userData.email;
+    document.getElementById("info-firstname").innerHTML = userData.firstname;
+    document.getElementById("info-lastname").innerHTML = userData.familyname;
+    document.getElementById("info-gender").innerHTML = userData.gender;
+    document.getElementById("info-city").innerHTML = userData.city;
+    document.getElementById("info-country").innerHTML = userData.country;
+  }
+
+}
+
+wallData = function() {
+  var returnCode = serverstub.getUserMessagesByToken(userToken);
+  var posts = returnCode.data;
+  var wallArea = document.getElementById("wallArea");
+
+  if (returnCode.success == false) {
+    wallArea.innerHTML = returnCode.message;
+  }
+  else {
+    wallArea.innerHTML = posts;
+  }
+
+}
+
+writePost = function(){
+  var post = document.getElementById("write-post").value;
+
+  serverstub.postMessage(userToken,post,"");
+
+  wallData();
+}
+
 // ------------
 // login / logout
 
@@ -33,6 +75,8 @@ login = function(){
     if (returnCode.success == true){
       userToken = returnCode.data;
       setBody(profileView);
+      userInfo();
+      wallData();
     }
     else{
       errorArea.innerHTML = returnCode.message;
@@ -92,3 +136,4 @@ signUp = function(){
 
   }
 }
+// -------------
