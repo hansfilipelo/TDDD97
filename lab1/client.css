@@ -154,4 +154,5 @@ body {
   padding: 5px;
   margin: inherit;
   line-height: inherit;
+  overflow: auto;
 }

@@ -1,4 +1,6 @@
 
+
+
 var welcomeView;
 var profileView;
 var userToken;
@@ -17,6 +19,7 @@ window.onload = function(){
 
 // -------- Show user info
 
+
 userInfo = function () {
   var returnCode = serverstub.getUserDataByToken(userToken);
   var userData = returnCode.data;
@@ -32,7 +35,6 @@ userInfo = function () {
     document.getElementById("info-city").innerHTML = userData.city;
     document.getElementById("info-country").innerHTML = userData.country;
   }
-
 }
 
 wallData = function() {
@@ -44,7 +46,15 @@ wallData = function() {
     wallArea.innerHTML = returnCode.message;
   }
   else {
-    wallArea.innerHTML = posts;
+    wallArea.innerHTML = "";
+
+    for (var i = 0; i < posts.length; i++) {
+      wallArea.innerHTML += "From: ";
+      wallArea.innerHTML += posts[i].writer;
+      wallArea.innerHTML += " Message: ";
+      wallArea.innerHTML += posts[i].content;
+      wallArea.innerHTML += "<br>";
+    }
   }
 
 }
@@ -52,7 +62,9 @@ wallData = function() {
 writePost = function(){
   var post = document.getElementById("write-post").value;
 
-  serverstub.postMessage(userToken,post,"");
+  console.log(post);
+
+  serverstub.postMessage(userToken,post,null);
 
   wallData();
 }
@@ -66,13 +78,13 @@ login = function(){
 
   var errorArea = document.getElementById("signInErrorArea");
 
-  if (password.length < 7){
-    errorArea.innerHTML = "Password need to be at least 7 characters.";
+  if (password.length < 1){
+    errorArea.innerHTML = "Password need to be at least 1 character.";
   }
   else{
     var returnCode = serverstub.signIn(email,password);
 
-    if (returnCode.success == true){
+    if (returnCode.success == true){;
       userToken = returnCode.data;
       setBody(profileView);
       userInfo();
@@ -107,8 +119,8 @@ signUp = function(){
   var repeatPassword = document.getElementById("signup-repeat-password").value;
   var errorArea = document.getElementById("signUpErrorArea");
 
-  if (password.length < 7) {
-    errorArea.innerHTML = "Password need to be at least 7 characters.";
+  if (password.length < 1) {
+    errorArea.innerHTML = "Password need to be at least 1 character.";
   }
   else if ( password != repeatPassword) {
     errorArea.innerHTML = "Passwords does not match!";
