@@ -43,7 +43,7 @@ body {
   line-height: inherit;
 }
 
-.signInErrorArea {
+.errorArea {
   color: red;
 }
 
@@ -101,6 +101,14 @@ body {
 }
 
 /* Home ---------------- */
+
+.home-top-area{
+  height: 100%;
+}
+
+.browse-top-area{
+  height: 100%
+}
 
 .infoArea {
   float: left;

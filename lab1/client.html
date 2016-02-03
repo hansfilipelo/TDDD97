@@ -28,7 +28,7 @@
             <input type="password" name="password" id="password" required/><br>
              <input type="submit" value="Login">
           </form>
-          <div class="signInErrorArea" id="signInErrorArea">
+          <div class="errorArea" id="signInErrorArea">
           </div>
         </div>
 
@@ -65,49 +65,52 @@
   <!--- profileView --------------------------------------------------- --->
   <script type="text/view" id="profileView">
     <div>
-      Inloggad!<br>
+      Welcome to Twidder!<br>
 
       <div class="tabs">
         <div class="tab">
           <input type="radio" id="home" name="tab-group-1" checked>
           <label for="home">Home</label>
           <div class="content">
+          <div id="home-top-area">
+            <div id="home-error-area" class="errorArea">
+            </div>
             <div class="infoArea">
 
               <div class="info-tag">
                 Email:
               </div>
-                <div id="info-email" class="info-userinfo">
+                <div id="home-info-email" class="info-userinfo">
               </div>
 
               <div class="info-tag">
                 First name:
               </div>
-                <div id="info-firstname" class="info-userinfo">
+                <div id="home-info-firstname" class="info-userinfo">
               </div>
 
               <div class="info-tag">
                 Last name:
               </div>
-                <div id="info-lastname" class="info-userinfo">
+                <div id="home-info-lastname" class="info-userinfo">
               </div>
 
               <div class="info-tag">
                 Gender:
               </div>
-                <div id="info-gender" class="info-userinfo">
+                <div id="home-info-gender" class="info-userinfo">
               </div>
 
               <div class="info-tag">
                 City:
               </div>
-                <div id="info-city" class="info-userinfo">
+                <div id="home-info-city" class="info-userinfo">
               </div>
 
               <div class="info-tag">
                 Country
               </div>
-                <div id="info-country" class="info-userinfo">
+                <div id="home-info-country" class="info-userinfo">
               </div>
 
             </div>
@@ -116,15 +119,16 @@
               <div class="postArea" id="postArea">
                 <form action="javascript:writePost();">
                   <label for="write-post">Write post:</label>
-                  <input type="text" name="write-post" id="write-post" required/><br>
+                  <input type="text" name="write-post" id="home-write-post" required/><br>
                    <input type="submit" value="Write post">
                 </form>
               </div>
 
-              <div class="wallArea" id="wallArea">
+              <div class="wallArea" id="home-wallArea">
               </div>
 
             </div>
+          </div>
           </div>
         </div>
         <!--- BROWSE ------------------------>
@@ -134,6 +138,17 @@
           <div class="content">
 
             <div id="browse-top-area">
+
+            <div id="browser-username-area">
+              <form action="javascript:browseUsername();">
+                <label for="write-post">Browse user:</label>
+                <input type="text" name="write-post" id="browser-username-form" required/><br>
+                 <input type="submit" value="Browse">
+              </form>
+              <div id="browse-error-area" class="errorArea">
+              </div>
+            </div>
+
             <div class="infoArea">
 
               <div class="info-tag">
@@ -175,8 +190,8 @@
             </div>
             <div class="entireWall">
 
-              <div class="postArea" id="browse-postArea">
-                <form action="javascript:writePost();">
+              <div class="postArea" id="postArea">
+                <form action="javascript:browseWritePost();">
                   <label for="write-post">Write post:</label>
                   <input type="text" name="write-post" id="browse-write-post" required/><br>
                    <input type="submit" value="Write post">

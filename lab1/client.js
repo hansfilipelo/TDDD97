@@ -4,6 +4,7 @@
 var welcomeView;
 var profileView;
 var userToken;
+var userEmail;
 
 setBody = function(view){
   document.getElementById("body").innerHTML = view.innerHTML;
@@ -20,25 +21,28 @@ window.onload = function(){
 // -------- Show user info
 
 
-userInfo = function (token) {
-  var returnCode = serverstub.getUserDataByToken(token);
+userInfo = function (token, view, email) {
+  var returnCode = serverstub.getUserDataByEmail(token,email);
   var userData = returnCode.data;
 
   if (returnCode.success == false) {
-    document.getElementById("info-area").innerHTML = returnCode.message;
+    document.getElementById(view+"error-area").innerHTML = returnCode.message;
   }
   else {
-    document.getElementById("info-email").innerHTML = userData.email;
-    document.getElementById("info-firstname").innerHTML = userData.firstname;
-    document.getElementById("info-lastname").innerHTML = userData.familyname;
-    document.getElementById("info-gender").innerHTML = userData.gender;
-    document.getElementById("info-city").innerHTML = userData.city;
-    document.getElementById("info-country").innerHTML = userData.country;
+    document.getElementById(view+"error-area").innerHTML = null;
+    
+    document.getElementById(view+"info-email").innerHTML = userData.email;
+    document.getElementById(view+"info-firstname").innerHTML = userData.firstname;
+    document.getElementById(view+"info-lastname").innerHTML = userData.familyname;
+    document.getElementById(view+"info-gender").innerHTML = userData.gender;
+    document.getElementById(view+"info-city").innerHTML = userData.city;
+    document.getElementById(view+"info-country").innerHTML = userData.country;
   }
 }
 
-wallData = function(token, wallArea) {
-  var returnCode = serverstub.getUserMessagesByToken(token);
+wallData = function(token, view, email) {
+  var wallArea = document.getElementById(view+"wallArea");
+  var returnCode = serverstub.getUserMessagesByEmail(token, email);
   var posts = returnCode.data;
 
   if (returnCode.success == false) {
@@ -59,13 +63,13 @@ wallData = function(token, wallArea) {
 }
 
 writePost = function(){
-  var post = document.getElementById("write-post").value;
+  var post = document.getElementById("home-write-post").value;
 
   console.log(post);
 
   serverstub.postMessage(userToken,post,null);
 
-  wallData(userToken, document.getElementById("wallArea"));
+  wallData(userToken, "home-", userEmail);
 }
 
 // ------------
@@ -83,11 +87,12 @@ login = function(){
   else{
     var returnCode = serverstub.signIn(email,password);
 
-    if (returnCode.success == true){;
+    if (returnCode.success == true){
+      userEmail = email;
       userToken = returnCode.data;
       setBody(profileView);
-      userInfo(userToken);
-      wallData(userToken, document.getElementById("wallArea"));
+      userInfo(userToken, "home-", userEmail);
+      wallData(userToken, "home-", userEmail);
     }
     else{
       errorArea.innerHTML = returnCode.message;
@@ -148,3 +153,10 @@ signUp = function(){
   }
 }
 // -------------
+
+browseUsername = function() {
+  var email = document.getElementById("browser-username-form").value;
+
+  userInfo(userToken, "browse-", email);
+  wallData(userToken, "browse-", email);
+}
