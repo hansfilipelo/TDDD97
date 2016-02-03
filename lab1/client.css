@@ -63,7 +63,7 @@ body {
 
 .tabs {
   position: relative;
-  min-height: 800px; /* This part sucks */
+  min-height: 800px;
   clear: both;
   margin: 25px 0;
 }

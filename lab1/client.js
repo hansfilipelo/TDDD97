@@ -20,8 +20,8 @@ window.onload = function(){
 // -------- Show user info
 
 
-userInfo = function () {
-  var returnCode = serverstub.getUserDataByToken(userToken);
+userInfo = function (token) {
+  var returnCode = serverstub.getUserDataByToken(token);
   var userData = returnCode.data;
 
   if (returnCode.success == false) {
@@ -37,10 +37,9 @@ userInfo = function () {
   }
 }
 
-wallData = function() {
-  var returnCode = serverstub.getUserMessagesByToken(userToken);
+wallData = function(token, wallArea) {
+  var returnCode = serverstub.getUserMessagesByToken(token);
   var posts = returnCode.data;
-  var wallArea = document.getElementById("wallArea");
 
   if (returnCode.success == false) {
     wallArea.innerHTML = returnCode.message;
@@ -66,7 +65,7 @@ writePost = function(){
 
   serverstub.postMessage(userToken,post,null);
 
-  wallData();
+  wallData(userToken, document.getElementById("wallArea"));
 }
 
 // ------------
@@ -87,8 +86,8 @@ login = function(){
     if (returnCode.success == true){;
       userToken = returnCode.data;
       setBody(profileView);
-      userInfo();
-      wallData();
+      userInfo(userToken);
+      wallData(userToken, document.getElementById("wallArea"));
     }
     else{
       errorArea.innerHTML = returnCode.message;
