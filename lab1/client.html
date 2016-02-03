@@ -214,7 +214,64 @@
           <input type="radio" id="account" name="tab-group-1">
           <label for="account">Account</label>
           <div class="content">
-            Account
+
+          <div class="infoArea">
+
+            <div class="info-tag">
+              Email:
+            </div>
+              <div id="account-info-email" class="info-userinfo">
+            </div>
+
+            <div class="info-tag">
+              First name:
+            </div>
+              <div id="account-info-firstname" class="info-userinfo">
+            </div>
+
+            <div class="info-tag">
+              Last name:
+            </div>
+              <div id="account-info-lastname" class="info-userinfo">
+            </div>
+
+            <div class="info-tag">
+              Gender:
+            </div>
+              <div id="account-info-gender" class="info-userinfo">
+            </div>
+
+            <div class="info-tag">
+              City:
+            </div>
+              <div id="account-info-city" class="info-userinfo">
+            </div>
+
+            <div class="info-tag">
+              Country
+            </div>
+              <div id="account-info-country" class="info-userinfo">
+            </div>
+
+          </div>
+
+          <div id="account-change-area" class=infoArea>
+
+            <form action="javascript:changePassword();">
+              <label for="account-old-password-post">Old password:</label>
+              <input type="password" name="Old passwotd" id="account-old-password" required/><br>
+              <label for="account-new-password">New password:</label>
+              <input type="password" name="Repeat passwotd" id="account-new-password" required/><br>
+              <label for="account-repeat-password">Repeat new password:</label>
+              <input type="password" name="Repeat passwotd" id="account-repeat-password" required/><br>
+               <input type="submit" value="Change password.">
+            </form>
+
+            <div id="account-error-area" class="errorArea">
+            </div>
+
+          </div>
+
           </div>
         </div>
       </div>

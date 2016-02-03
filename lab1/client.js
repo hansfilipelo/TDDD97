@@ -5,6 +5,7 @@ var welcomeView;
 var profileView;
 var userToken;
 var userEmail;
+var passWordMinLength = 1;
 
 setBody = function(view){
   document.getElementById("body").innerHTML = view.innerHTML;
@@ -29,7 +30,9 @@ userInfo = function (token, view, email) {
     document.getElementById(view+"error-area").innerHTML = returnCode.message;
   }
   else {
-    document.getElementById(view+"error-area").innerHTML = null;
+    if (view == "browse-") {
+      document.getElementById(view+"error-area").innerHTML = null;
+    }
 
     document.getElementById(view+"info-email").innerHTML = userData.email;
     document.getElementById(view+"info-firstname").innerHTML = userData.firstname;
@@ -81,8 +84,8 @@ login = function(){
 
   var errorArea = document.getElementById("signInErrorArea");
 
-  if (password.length < 1){
-    errorArea.innerHTML = "Password need to be at least 1 character.";
+  if (password.length < passWordMinLength){
+    errorArea.innerHTML = "Password need to be at least " + passWordMinLength + " characters.";
   }
   else{
     var returnCode = serverstub.signIn(email,password);
@@ -92,6 +95,7 @@ login = function(){
       userToken = returnCode.data;
       setBody(profileView);
       userInfo(userToken, "home-", userEmail);
+      userInfo(userToken, "account-", userEmail);
       wallData(userToken, "home-", userEmail);
     }
     else{
@@ -123,8 +127,8 @@ signUp = function(){
   var repeatPassword = document.getElementById("signup-repeat-password").value;
   var errorArea = document.getElementById("signUpErrorArea");
 
-  if (password.length < 1) {
-    errorArea.innerHTML = "Password need to be at least 1 character.";
+  if (password.length < passWordMinLength) {
+    errorArea.innerHTML = "Password need to be at least " + passWordMinLength + " characters.";
   }
   else if ( password != repeatPassword) {
     errorArea.innerHTML = "Passwords does not match!";
@@ -176,4 +180,36 @@ browseWritePost = function() {
     wallData(userToken,"browse-", otherUserEmail);
   }
 
+}
+
+
+// ----------------------
+
+changePassword = function(){
+  var errorArea = document.getElementById("account-error-area");
+
+  var oldPasswordField = document.getElementById("account-old-password");
+  var newPasswordField = document.getElementById("account-new-password");
+  var repeatPasswordField = document.getElementById("account-repeat-password");
+
+  if (oldPasswordField.value.length < passWordMinLength){
+    errorArea.innerHTML = "Password need to be at least " + passWordMinLength + " characters.";
+    return;
+  }
+
+  if (newPasswordField.value == repeatPasswordField.value) {
+    var returnCode = serverstub.changePassword(userToken, oldPasswordField.value, newPasswordField.value)
+
+    if (returnCode.success) {
+      newPasswordField.value = null;
+      repeatPasswordField.value = null;
+      oldPasswordField.value = null;
+    }
+    else{
+      errorArea.innerHTML = returnCode.message;
+    }
+  }
+  else {
+    errorArea.innerHTML = "Passwords does not match!"
+  }
 }
