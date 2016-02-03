@@ -30,7 +30,7 @@ userInfo = function (token, view, email) {
   }
   else {
     document.getElementById(view+"error-area").innerHTML = null;
-    
+
     document.getElementById(view+"info-email").innerHTML = userData.email;
     document.getElementById(view+"info-firstname").innerHTML = userData.firstname;
     document.getElementById(view+"info-lastname").innerHTML = userData.familyname;
@@ -154,9 +154,26 @@ signUp = function(){
 }
 // -------------
 
-browseUsername = function() {
-  var email = document.getElementById("browser-username-form").value;
+var otherUserEmail;
 
-  userInfo(userToken, "browse-", email);
-  wallData(userToken, "browse-", email);
+browseUsername = function() {
+  otherUserEmail = document.getElementById("browse-username-form").value;
+
+  userInfo(userToken, "browse-", otherUserEmail);
+  wallData(userToken, "browse-", otherUserEmail);
+}
+
+browseWritePost = function() {
+  var content = document.getElementById("browse-write-post").value;
+
+  var returnCode = serverstub.postMessage(userToken, content, otherUserEmail);
+
+  if (!returnCode.success) {
+    document.getElementById("browse-post-error-area").innerHTML = returnCode.message;
+  }
+  else {
+    document.getElementById("browse-post-error-area").innerHTML = null;
+    wallData(userToken,"browse-", otherUserEmail);
+  }
+
 }

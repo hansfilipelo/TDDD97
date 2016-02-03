@@ -139,10 +139,10 @@
 
             <div id="browse-top-area">
 
-            <div id="browser-username-area">
+            <div id="browse-username-area">
               <form action="javascript:browseUsername();">
                 <label for="write-post">Browse user:</label>
-                <input type="text" name="write-post" id="browser-username-form" required/><br>
+                <input type="text" name="write-post" id="browse-username-form" required/><br>
                  <input type="submit" value="Browse">
               </form>
               <div id="browse-error-area" class="errorArea">
@@ -190,12 +190,15 @@
             </div>
             <div class="entireWall">
 
-              <div class="postArea" id="postArea">
+              <div class="postArea" id="browse-post-area">
                 <form action="javascript:browseWritePost();">
                   <label for="write-post">Write post:</label>
                   <input type="text" name="write-post" id="browse-write-post" required/><br>
                    <input type="submit" value="Write post">
                 </form>
+
+                <div id="browse-post-error-area" class="errorArea">
+                </div>
               </div>
 
               <div class="wallArea" id="browse-wallArea">
