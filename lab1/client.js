@@ -33,7 +33,7 @@ userInfo = function (token, view, email) {
     if (view == "browse-") {
       document.getElementById(view+"error-area").innerHTML = null;
     }
-
+    document.getElementById(view+"info-area").style.display = "block";
     document.getElementById(view+"info-email").innerHTML = userData.email;
     document.getElementById(view+"info-firstname").innerHTML = userData.firstname;
     document.getElementById(view+"info-lastname").innerHTML = userData.familyname;
@@ -44,7 +44,7 @@ userInfo = function (token, view, email) {
 }
 
 wallData = function(token, view, email) {
-  var wallArea = document.getElementById(view+"wallArea");
+  var wallArea = document.getElementById(view+"wall-area");
   var returnCode = serverstub.getUserMessagesByEmail(token, email);
   var posts = returnCode.data;
 
@@ -52,7 +52,8 @@ wallData = function(token, view, email) {
     wallArea.innerHTML = returnCode.message;
   }
   else {
-    wallArea.innerHTML = "";
+    wallArea.innerHTML = null;
+    document.getElementById(view+"entire-wall-area").style.display = "block";
 
     for (var i = 0; i < posts.length; i++) {
       wallArea.innerHTML += "From: ";
@@ -108,6 +109,7 @@ logout = function(){
 
   var welcomeView = document.getElementById("welcomeView");
 
+  serverstub.signOut(userToken);
   setBody(welcomeView);
 }
 
@@ -163,6 +165,12 @@ var otherUserEmail;
 browseUsername = function() {
   otherUserEmail = document.getElementById("browse-username-form").value;
 
+  if (otherUserEmail == userEmail) {
+    document.getElementById("browse-error-area").innerHTML = "Are you browsing yourself you narcisist you!?";
+    return;
+  }
+
+  document.getElementById("browse-error-area").innerHTML = null;
   userInfo(userToken, "browse-", otherUserEmail);
   wallData(userToken, "browse-", otherUserEmail);
 }

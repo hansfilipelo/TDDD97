@@ -120,16 +120,31 @@ body {
   min-height: 80%;
   background-color: #FFFFFF;
   height: inherit;
+  display: none;
+}
+
+.changePasswordArea {
+  float: left;
+  border-style: solid;
+  border-radius: 4px;
+  margin-top: 30px;
+  padding-top: 20px;
+  min-width: 35%;
+  min-height: 80%;
+  background-color: #FFFFFF;
+  height: inherit;
 }
 
 .info-tag {
   float: left;
   padding-left: 2em;
+  display: inherit;
 }
 
 .info-userinfo {
   text-align: left;
   padding-left: 10em;
+  display: inherit;
 }
 
 .entireWall {
@@ -140,6 +155,7 @@ body {
   height: inherit;
   line-height: 150%;
   text-align: center;
+  display: none;
 }
 
 .postArea {

@@ -75,7 +75,7 @@
           <div id="home-top-area">
             <div id="home-error-area" class="errorArea">
             </div>
-            <div class="infoArea">
+            <div class="infoArea" id="home-info-area">
 
               <div class="info-tag">
                 Email:
@@ -114,7 +114,7 @@
               </div>
 
             </div>
-            <div class="entireWall">
+            <div class="entireWall" id="home-entire-wall-area">
 
               <div class="postArea" id="postArea">
                 <form action="javascript:writePost();">
@@ -124,7 +124,7 @@
                 </form>
               </div>
 
-              <div class="wallArea" id="home-wallArea">
+              <div class="wallArea" id="home-wall-area">
               </div>
 
             </div>
@@ -149,7 +149,7 @@
               </div>
             </div>
 
-            <div class="infoArea">
+            <div class="infoArea" id="browse-info-area">
 
               <div class="info-tag">
                 Email:
@@ -188,7 +188,8 @@
               </div>
 
             </div>
-            <div class="entireWall">
+
+            <div class="entireWall" id="browse-entire-wall-area">
 
               <div class="postArea" id="browse-post-area">
                 <form action="javascript:browseWritePost();">
@@ -201,7 +202,7 @@
                 </div>
               </div>
 
-              <div class="wallArea" id="browse-wallArea">
+              <div class="wallArea" id="browse-wall-area">
               </div>
 
             </div>
@@ -215,7 +216,7 @@
           <label for="account">Account</label>
           <div class="content">
 
-          <div class="infoArea">
+          <div class="infoArea" id="account-info-area">
 
             <div class="info-tag">
               Email:
@@ -252,10 +253,15 @@
             </div>
               <div id="account-info-country" class="info-userinfo">
             </div>
+            <br>
+
+            <form action="javascript:logout();">
+               <input type="submit" value="Logout">
+            </form>
 
           </div>
 
-          <div id="account-change-area" class=infoArea>
+          <div id="account-change-area" class="changePasswordArea">
 
             <form action="javascript:changePassword();">
               <label for="account-old-password-post">Old password:</label>
@@ -276,9 +282,6 @@
         </div>
       </div>
 
-      <form action="javascript:logout();">
-         <input type="submit" value="Logout">
-      </form>
     </div>
   </script>
 
