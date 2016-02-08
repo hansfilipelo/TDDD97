@@ -5,42 +5,85 @@ body {
 }
 
 /* -------------------------- */
+/* All this is related to get my input labels to align */
+
+fieldset
+{
+  float: left;
+  clear: left;
+  width: 100%;
+  margin: 0 0 1.5em 0;
+  padding: 0;
+}
+
+legend
+{
+  margin-left: 1em;
+  color: #000000;
+  font-weight: bold;
+}
+
+fieldset ol
+{
+  padding: 1em 1em 0 1em;
+  list-style: none;
+  zoom: 1;
+}
+
+fieldset li
+{
+  float: left;
+  clear: left;
+  width: 100%;
+  padding-bottom: 1em;
+}
+
+label
+{
+  float: left;
+  width: 10em;
+  margin-right: 1em;
+}
+
+fieldset.submit
+{
+  float: none;
+  width: auto;
+  border: 0 none #FFFFFF;
+  padding-left: 12em;
+}
+
+/* ----------------------------------- */
 /* welcomeView */
 
 .wView {
-  text-align: center;
-  margin: auto;
-  width: 90%;
-  height: 500px;
+  align-self: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-grow: 1;
+  padding-top: 10px;
 }
 
 .logo {
-  float: left;
+  display: flex;
   border-style: solid;
-  border-radius: 4px;
-  margin: 10px;
-  background-color: #FFFFFF;
-  height: inherit;
 }
 
 .accountArea {
-  float: left;
-  min-height: 400px;
-  margin: 15px;
-  height: inherit;
-  line-height: 150%;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  line-height: 130%;
+  text-align: right;
+  margin-left: 28px;
 }
 
 .signIn {
-  text-align: inherit;
-  min-height: 177px;
-  vertical-align: middle;
+  display: flex;
+  flex-grow: 1;
   border-style: solid;
-  border-radius: 4px;
-  padding: 10px;
-  margin: inherit;
-  line-height: inherit;
+  margin-bottom: 14px;
+  padding-top: 10px;
 }
 
 .errorArea {
@@ -48,14 +91,11 @@ body {
 }
 
 .signUp {
-  text-align: inherit;
-  min-height: 178px;
-  vertical-align: middle;
+  display: flex;
+  flex-grow: 1;
   border-style: solid;
-  border-radius: 4px;
-  padding: 10px;
-  margin: inherit;
-  line-height: inherit;
+  margin-top: 14px;
+  padding-top: 10px;
 }
 
 /* -------------------------- */

@@ -5,7 +5,7 @@ var welcomeView;
 var profileView;
 var userToken;
 var userEmail;
-var passWordMinLength = 1;
+var passWordMinLength = 3;
 
 setBody = function(view){
   document.getElementById("body").innerHTML = view.innerHTML;
@@ -212,6 +212,7 @@ changePassword = function(){
       newPasswordField.value = null;
       repeatPasswordField.value = null;
       oldPasswordField.value = null;
+      errorArea.innerHTML = null;
     }
     else{
       errorArea.innerHTML = returnCode.message;
