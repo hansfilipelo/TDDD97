@@ -2,7 +2,7 @@
 -- Author:        Hans-Filip Elo
 -- Caption:       New Model
 -- Project:       Name of the project
--- Changed:       2016-02-20 14:41
+-- Changed:       2016-02-20 15:07
 -- Created:       2016-02-20 09:12
 PRAGMA foreign_keys = OFF;
 
@@ -30,7 +30,7 @@ CREATE TABLE "database"."users"(
   "familyName" VARCHAR(45) NOT NULL,
   "gender" INTEGER NOT NULL,
   "city" INTEGER NOT NULL,
-  "salt" INTEGER NOT NULL,
+  "salt" VARCHAR(45) NOT NULL,
   CONSTRAINT "fk_users_cities"
     FOREIGN KEY("city")
     REFERENCES "cities"("idcities")
