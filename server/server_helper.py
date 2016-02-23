@@ -17,6 +17,7 @@ app = Flask(__name__)
 app.debug = True
 
 signed_in_users = {}
+user_data_keys = ["email", "firstname", "familyname", "gender", "city", "country"]
 
 @app.route("/")
 def hello():
@@ -36,6 +37,16 @@ def get_email_from_token(token):
         return signed_in_users[token]
     except KeyError:
         return None
+
+# ----------------------------
+
+def dict_from_query(data):
+    return_data = dict()
+
+    for key in user_data_keys:
+        return_data[key] = data[key]
+
+    return return_data
 
 # ----------------------------
 
@@ -131,28 +142,53 @@ def change_password():
     return "User not signed in"
 
 # ----------------------------
+
+@app.route("/usermessages")
+def get_user_messages_by_token():
+    token = request.headers.get('token')
+
+    if token in signed_in_users:
+        email = get_email_from_token(token)
+
+        query = query_db('SELECT * FROM messages WHERE toUser=(SELECT idusers FROM users WHERE email=?)', [email])
+
+        return_data = dict()
+        return_data["content"] = []
+        return_data["fromUser"] = []
+        return_data["toUser"] = []
+
+        for i in range(0, len(query)):
+            return_data["content"].append(query[i]["content"])
+            return_data["fromUser"].append(query[i]["fromUser"])
+            return_data["toUser"].append(query[i]["toUsers"])
+
+        return json.dumps({"success": "true", "message": "OK", "data": return_data})
+
+    return json.dumps({"success": "false", "message": "User not signed in."})
+
+# ----------------------------
 @app.route("/userdata/<email>")
 def get_user_data_by_email(email):
     token = request.headers.get('token')
 
     if token in signed_in_users:
         user_info = get_user_info(email)
-        return json.dumps({"success": "true", "data": {"email": user_info["email"], "firstname" : user_info["firstname"]}})
+        return json.dumps({"success": "true", "message": "Success!", "data": dict_from_query(query)})
 
-    return "User not signed in"
+    return json.dumps({"success": "false", "message": "User not signed in."})
 
 # ----------------------------
 
-@app.route("/get_user_data_by_token")
+@app.route("/userdata")
 def get_user_data_by_token():
     token = request.headers.get('token')
     email = get_email_from_token(token)
 
     if token in signed_in_users:
         user_info = get_user_info(email)
-        return json.dumps({"success": "true", "data": {"email": user_info["email"], "firstname" : user_info["firstname"]}})
+        return json.dumps({"success": "true", "message": "Success!", "data": dict_from_query(query)})
 
-    return "User not signed in"
+    return json.dumps({"success": "false", "message": "User not signed in."})
 
 
 
