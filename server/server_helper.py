@@ -167,6 +167,30 @@ def get_user_messages_by_token():
     return json.dumps({"success": "false", "message": "User not signed in."})
 
 # ----------------------------
+
+@app.route("/usermessages/<email>")
+def get_user_messages_by_email(email):
+    token = request.headers.get('token')
+
+    if token in signed_in_users:
+
+        query = query_db('SELECT * FROM messages WHERE toUser=(SELECT idusers FROM users WHERE email=?)', [email])
+
+        return_data = dict()
+        return_data["content"] = []
+        return_data["fromUser"] = []
+        return_data["toUser"] = []
+
+        for i in range(0, len(query)):
+            return_data["content"].append(query[i]["content"])
+            return_data["fromUser"].append(query[i]["fromUser"])
+            return_data["toUser"].append(query[i]["toUsers"])
+
+        return json.dumps({"success": "true", "message": "OK", "data": return_data})
+
+    return json.dumps({"success": "false", "message": "User not signed in."})
+
+# ----------------------------
 @app.route("/userdata/<email>")
 def get_user_data_by_email(email):
     token = request.headers.get('token')
@@ -190,7 +214,17 @@ def get_user_data_by_token():
 
     return json.dumps({"success": "false", "message": "User not signed in."})
 
+# ----------------------------
+@app.route("/post_message/<email>")
+def post_message(email):
+    token = request.headers.get('token')
+    message = request.headers.get('message')
 
+    if token in signed_in_users:
+        query_db('INSERT INTO messages(fromUser, toUser, content) VALUES(?,?,?)', [get_email_from_token(token), email, message])
+        return json.dumps({"success": "true", "message": "Posted message."})
+
+    return json.dumps({"success": "false", "message": "User not signed in."})
 
 # Teardown of app
 
