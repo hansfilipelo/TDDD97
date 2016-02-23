@@ -6,6 +6,7 @@ from db import *
 from flask import g
 import hashlib, uuid
 import random
+import json
 
 _USER_TOKEN_MIN_ = 1000
 _USER_TOKEN_MAX_ = 100000
@@ -40,8 +41,8 @@ def get_email_from_token(token):
 
 @app.route("/sign_in")
 def sign_in():
-    email = request.args.get('email')
-    password = request.args.get('password')
+    email = request.headers.get('email')
+    password = request.headers.get('password')
 
     userInfo = query_db('select * from users where email=?', [email], one=True)
 
@@ -63,19 +64,19 @@ def sign_in():
 
 @app.route("/sign_up")
 def sign_up():
-    email = request.args.get('email')
-    password = request.args.get('password')
-    firstname = request.args.get('firstname')
-    familyName = request.args.get('familyname')
+    email = request.headers.get('email')
+    password = request.headers.get('password')
+    firstname = request.headers.get('firstname')
+    familyName = request.headers.get('familyname')
 
-    gender = request.args.get('gender')
+    gender = request.headers.get('gender')
     if gender == "male":
         gender = 0
     elif gender == "female":
         gender = female
 
-    city = request.args.get('city')
-    country = request.args.get('country')
+    city = request.headers.get('city')
+    country = request.headers.get('country')
     salt = str(random.randint(_SALT_MIN_, _SALT_MAX_))
 
     if query_db('select * from users where email=?', [email], one=True) == None:
@@ -104,7 +105,7 @@ def sign_up():
 # ----------------------------
 @app.route("/sign_out")
 def sign_out():
-    token = request.args.get('token')
+    token = request.headers.get('token')
 
     if token in signed_in_users:
         del signed_in_users[token]
@@ -113,9 +114,9 @@ def sign_out():
 # ----------------------------
 @app.route("/change_password")
 def change_password():
-    token = request.args.get('token')
-    old_password = request.args.get('old_password')
-    new_password = request.args.get('new_password')
+    token = request.headers.get('token')
+    old_password = request.headers.get('old_password')
+    new_password = request.headers.get('new_password')
     salt = str(random.randint(_SALT_MIN_, _SALT_MAX_))
 
     userInfo = get_user_info(get_email_from_token(token))
@@ -130,15 +131,30 @@ def change_password():
     return "User not signed in"
 
 # ----------------------------
-@app.route("/get_user_data_by_email")
-def get_user_data_by_email():
-    token = request.args.get('token')
-    email = request.args.get('email')
+@app.route("/userdata/<email>")
+def get_user_data_by_email(email):
+    token = request.headers.get('token')
 
     if token in signed_in_users:
-        return get_user_info(email)
+        user_info = get_user_info(email)
+        return json.dumps({"success": "true", "data": {"email": user_info["email"], "firstname" : user_info["firstname"]}})
 
     return "User not signed in"
+
+# ----------------------------
+
+@app.route("/get_user_data_by_token")
+def get_user_data_by_token():
+    token = request.headers.get('token')
+    email = get_email_from_token(token)
+
+    if token in signed_in_users:
+        user_info = get_user_info(email)
+        return json.dumps({"success": "true", "data": {"email": user_info["email"], "firstname" : user_info["firstname"]}})
+
+    return "User not signed in"
+
+
 
 # Teardown of app
 
