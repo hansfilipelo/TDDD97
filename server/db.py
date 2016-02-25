@@ -14,8 +14,6 @@ def get_db():
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = connect_to_database()
-    # Return rows as dictionaries
-    db.row_factory = sqlite3.Row
     return db
 
 # Query-DB function which returns dicts
