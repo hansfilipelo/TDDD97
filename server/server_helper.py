@@ -107,25 +107,6 @@ def sign_out():
     return "Signed out"
 
 # ----------------------------
-@app.route("/change_password")
-def change_password():
-    token = request.headers.get('token')
-    old_password = request.headers.get('old_password')
-    new_password = request.headers.get('new_password')
-    salt = str(random.randint(_SALT_MIN_, _SALT_MAX_))
-
-    userInfo = get_user_info(get_email_from_token(token))
-
-    if userInfo != None:
-        if hash_password(old_password, userInfo["salt"]) == userInfo["passwordHash"]:
-            query_db('UPDATE users SET passwordHash=?, salt=? WHERE email=?', [hash_password(new_password,salt), salt, signed_in_users[token]])
-            return "Updated password"
-        print(userInfo["passwordHash"])
-        print(hash_password(old_password, userInfo["salt"]))
-        return "Incorrect old password"
-    return "User not signed in"
-
-# ----------------------------
 def get_user_messages_helper(token, to_email):
     return_data = dict()
 
@@ -221,6 +202,26 @@ def post_message(email):
         return json.dumps({"success": "true", "message": "Posted message."})
 
     return json.dumps({"success": "false", "message": "User not signed in."})
+
+# ----------------------------
+@app.route("/change_password")
+def change_password():
+    token = request.headers.get('token')
+    old_password = request.headers.get('old_password')
+    new_password = request.headers.get('new_password')
+    email = get_email_from_token(token)
+    salt = str(random.randint(_SALT_MIN_, _SALT_MAX_))
+
+    user_info = query_db('SELECT passwordHash, salt FROM users WHERE email=?', [email], one=True)
+    password_hash = user_info[0]
+    old_salt = user_info[1]
+
+    if user_info != None:
+        if hash_password(old_password, old_salt) == password_hash:
+            query_db('UPDATE users SET passwordHash=?, salt=? WHERE email=?', [hash_password(new_password,salt), salt, email])
+            return json.dumps({"success": "true", "message": "Updated password."})
+        return json.dumps({"success": "false", "message": "Incorrect old password"})
+    return json.dumps({"success": "false", "message": "User not signed in"})
 
 # Teardown of app
 
