@@ -18,7 +18,6 @@ app = Flask(__name__)
 app.debug = True
 
 signed_in_users = {}
-user_data_keys = ["email", "firstname", "familyname", "gender", "city", "country"]
 
 @app.route("/")
 def hello():
@@ -49,11 +48,11 @@ def sign_in():
                 token = str(random.randint(_USER_TOKEN_MIN_,_USER_TOKEN_MAX_))
 
             signed_in_users[token] = email
-            return token
+            return json.dumps({"success": "false", "message": "Sign in OK", "data": token})
         else:
-            return 'Wrong password.'
+            return json.dumps({"success": "false", "message": "Wrong password."})
     else:
-        return 'No user with that username.'
+        return json.dumps({"success": "false", "message": "No user with that username."})
 
 # ----------------------------
 
@@ -68,14 +67,14 @@ def sign_up():
     if gender == "male":
         gender = 0
     elif gender == "female":
-        gender = female
+        gender = 1
 
     city = request.headers.get('city')
     country = request.headers.get('country')
     salt = str(random.randint(_SALT_MIN_, _SALT_MAX_))
 
     if query_db('select * from users where email=?', [email], one=True) == None:
-        db_country = query_db('select * from countries where name=?', [country], one=True)[0]
+        db_country = query_db('select name,idcountries from countries where name=?', [country], one=True)[0]
         db_city = None
         try:
             db_city = query_db('SELECT * FROM cities WHERE name=? AND country=?', [city, db_country["idcountries"]], one=True)[0]
@@ -85,17 +84,17 @@ def sign_up():
 
         if db_country == None:
             query_db('INSERT INTO countries(name) VALUES(?)', [country])
-            db_country = query_db('select * from countries where name=?', [country], one=True)[0]
-            query_db('INSERT INTO cities(name, country) VALUES(?,?)', [city,db_country["idcountries"]])
-            db_city = query_db('select * from cities where name=? AND country=?', [city, db_country["idcountries"]], one=True)[0]
+            db_country = query_db('select idcountries from countries where name=?', [country], one=True)[0]
+            query_db('INSERT INTO cities(name, country) VALUES(?,?)', [city,db_country[1]])
+            db_city = query_db('select idcities from cities where name=? AND country=?', [city, db_country[1]], one=True)
         elif db_city == None:
-            query_db('INSERT INTO cities(name, country) VALUES(?,?)', [city,db_country["idcountries"]])
-            db_city = query_db('select * from cities where name=? AND country=?', [city, db_country["idcountries"]], one=True)[0]
+            query_db('INSERT INTO cities(name, country) VALUES(?,?)', [city,db_country[1]])
+            db_city = query_db('select idcities from cities where name=? AND country=?', [city, db_country[1]], one=True)
 
-        query_db('INSERT INTO users(email, passwordHash, firstname, familyName, gender, city, salt) VALUES(?,?,?,?,?,?,?)', [email, hash_password(password, salt), firstname, familyName, gender, db_city["idcities"], salt])
-        return 'Sign up ok'
+        query_db('INSERT INTO users(email, passwordHash, firstname, familyName, gender, city, salt) VALUES(?,?,?,?,?,?,?)', [email, hash_password(password, salt), firstname, familyName, gender, db_city[0], salt])
+        return json.dumps({"success": "true", "message": "Sign up OK!"})
     else:
-        return 'User already exists.'
+        return json.dumps({"success": "false", "message": "User already exists."})
 
 # ----------------------------
 @app.route("/sign_out")
@@ -104,7 +103,9 @@ def sign_out():
 
     if token in signed_in_users:
         del signed_in_users[token]
-    return "Signed out"
+        return json.dumps({"success": "true", "message": "Signed out."})
+
+    return json.dumps({"success": "false", "message": "User not signed in."})
 
 # ----------------------------
 def get_user_messages_helper(token, to_email):
