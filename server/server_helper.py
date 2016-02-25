@@ -48,7 +48,7 @@ def sign_in():
                 token = str(random.randint(_USER_TOKEN_MIN_,_USER_TOKEN_MAX_))
 
             signed_in_users[token] = email
-            return json.dumps({"success": "false", "message": "Sign in OK", "data": token})
+            return json.dumps({"success": "true", "message": "Sign in OK", "data": token})
         else:
             return json.dumps({"success": "false", "message": "Wrong password."})
     else:
@@ -74,17 +74,17 @@ def sign_up():
     salt = str(random.randint(_SALT_MIN_, _SALT_MAX_))
 
     if query_db('select * from users where email=?', [email], one=True) == None:
-        db_country = query_db('select name,idcountries from countries where name=?', [country], one=True)[0]
+        db_country = query_db('select name,idcountries from countries where name=?', [country], one=True)
         db_city = None
         try:
-            db_city = query_db('SELECT * FROM cities WHERE name=? AND country=?', [city, db_country["idcountries"]], one=True)[0]
+            db_city = query_db('SELECT * FROM cities WHERE name=? AND country=?', [city, db_country[1]], one=True)[0]
         except TypeError:
             pass
 
 
         if db_country == None:
             query_db('INSERT INTO countries(name) VALUES(?)', [country])
-            db_country = query_db('select idcountries from countries where name=?', [country], one=True)[0]
+            db_country = query_db('select name,idcountries from countries where name=?', [country], one=True)
             query_db('INSERT INTO cities(name, country) VALUES(?,?)', [city,db_country[1]])
             db_city = query_db('select idcities from cities where name=? AND country=?', [city, db_country[1]], one=True)
         elif db_city == None:
