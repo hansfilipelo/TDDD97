@@ -171,15 +171,33 @@ def get_user_messages_by_email(to_email):
     return get_user_messages_helper(token, to_email)
 
 # ----------------------------
+
+def get_user_data_helper(token, email):
+    if token in signed_in_users:
+        user_info = query_db('SELECT email,firstname,familyName,gender,city FROM users WHERE email=?', [email], one=True)
+        city_info = query_db('SELECT name,country FROM cities WHERE idcities=?', [user_info[4]], one=True)
+        country_info = query_db('SELECT name FROM countries WHERE idcountries=?', [city_info[1]], one=True)
+
+        return_data = dict()
+        return_data["email"] = user_info[0]
+        return_data["firstname"] = user_info[1]
+        return_data["familyName"] = user_info[2]
+        if user_info[2] == 0:
+            return_data["gender"] = "male"
+        else:
+            return_data["gender"] = "female"
+        return_data["city"] = city_info[0]
+        return_data["country"] = country_info[0]
+
+        return json.dumps({"success": "true", "message": "Success!", "data": return_data})
+
+    return json.dumps({"success": "false", "message": "User not signed in."})
+
+
 @app.route("/userdata/<email>")
 def get_user_data_by_email(email):
     token = request.headers.get('token')
-
-    if token in signed_in_users:
-        user_info = get_user_info(email)
-        return json.dumps({"success": "true", "message": "Success!", "data": dict_from_query(query)})
-
-    return json.dumps({"success": "false", "message": "User not signed in."})
+    return get_user_data_helper(token, email)
 
 # ----------------------------
 
@@ -188,11 +206,7 @@ def get_user_data_by_token():
     token = request.headers.get('token')
     email = get_email_from_token(token)
 
-    if token in signed_in_users:
-        user_info = get_user_info(email)
-        return json.dumps({"success": "true", "message": "Success!", "data": dict_from_query(query)})
-
-    return json.dumps({"success": "false", "message": "User not signed in."})
+    return get_user_data_helper(token, email)
 
 # ----------------------------
 @app.route("/post_message/<email>")
