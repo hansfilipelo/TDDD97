@@ -126,18 +126,14 @@ def change_password():
     return "User not signed in"
 
 # ----------------------------
-
-@app.route("/usermessages")
-def get_user_messages_by_token():
-    token = request.headers.get('token')
-    email = get_email_from_token(token)
+def get_user_messages_helper(token, to_email):
     return_data = dict()
 
     if token in signed_in_users:
         from_users = []
         to_users = []
         content = []
-        query = query_db('SELECT fromUser,toUser,content FROM messages WHERE toUser=(SELECT idusers FROM users WHERE email=?)', [email])
+        query = query_db('SELECT fromUser,toUser,content FROM messages WHERE toUser=(SELECT idusers FROM users WHERE email=?)', [to_email])
         for row in query:
             from_users.append(query_db('SELECT email FROM users WHERE idusers=?', [row[0]], one=True)[0])
             to_users.append(query_db('SELECT email FROM users WHERE idusers=?', [row[1]], one=True)[0])
@@ -158,33 +154,21 @@ def get_user_messages_by_token():
 
 # ----------------------------
 
-@app.route("/usermessages/<email>")
-def get_user_messages_by_email(email):
+@app.route("/usermessages")
+def get_user_messages_by_token():
     token = request.headers.get('token')
-    return_data = dict()
+    to_email = get_email_from_token(token)
 
-    if token in signed_in_users:
-        from_users = []
-        to_users = []
-        content = []
-        query = query_db('SELECT fromUser,toUser,content FROM messages WHERE toUser=(SELECT idusers FROM users WHERE email=?)', [email])
-        for row in query:
-            from_users.append(query_db('SELECT email FROM users WHERE idusers=?', [row[0]], one=True)[0])
-            to_users.append(query_db('SELECT email FROM users WHERE idusers=?', [row[1]], one=True)[0])
-            content.append(row[2])
+    return get_user_messages_helper(token, to_email)
 
 
-        return_data["content"] = []
-        return_data["from_user"] = []
-        return_data["to_user"] = []
-        for i in range(0, len(query)):
-            return_data["content"].append(content[i])
-            return_data["from_user"].append(from_users[i])
-            return_data["to_user"].append(to_users[i])
+# ----------------------------
 
-        return json.dumps({"success": "true", "message": "OK", "data": return_data})
+@app.route("/usermessages/<to_email>")
+def get_user_messages_by_email(to_email):
+    token = request.headers.get('token')
 
-    return json.dumps({"success": "false", "message": "User not signed in."})
+    return get_user_messages_helper(token, to_email)
 
 # ----------------------------
 @app.route("/userdata/<email>")
