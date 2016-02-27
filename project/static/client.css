@@ -1,0 +1,222 @@
+
+body {
+  text-align: center;
+  background-color: #DDDDDD;
+}
+
+/* -------------------------- */
+/* All this is related to get my input labels to align */
+
+fieldset
+{
+  float: left;
+  clear: left;
+  width: 100%;
+  margin: 0 0 1.5em 0;
+  padding: 0;
+}
+
+legend
+{
+  margin-left: 1em;
+  color: #000000;
+  font-weight: bold;
+}
+
+fieldset ol
+{
+  padding: 1em 1em 0 1em;
+  list-style: none;
+  zoom: 1;
+}
+
+fieldset li
+{
+  float: left;
+  clear: left;
+  width: 100%;
+  padding-bottom: 1em;
+}
+
+label
+{
+  float: left;
+  width: 10em;
+  margin-right: 1em;
+}
+
+fieldset.submit
+{
+  float: none;
+  width: auto;
+  border: 0 none #FFFFFF;
+  padding-left: 12em;
+}
+
+/* ----------------------------------- */
+/* welcomeView */
+
+.wView {
+  align-self: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-grow: 1;
+  padding-top: 10px;
+}
+
+.logo {
+  display: flex;
+  border-style: solid;
+}
+
+.accountArea {
+  display: flex;
+  flex-direction: column;
+  line-height: 130%;
+  text-align: right;
+  margin-left: 28px;
+}
+
+.signIn {
+  display: flex;
+  flex-grow: 1;
+  border-style: solid;
+  margin-bottom: 14px;
+  padding-top: 10px;
+}
+
+.errorArea {
+  color: red;
+}
+
+.signUp {
+  display: flex;
+  flex-grow: 1;
+  border-style: solid;
+  margin-top: 14px;
+  padding-top: 10px;
+}
+
+/* -------------------------- */
+/* profileView */
+
+.tabs {
+  position: relative;
+  min-height: 800px;
+  clear: both;
+  margin: 25px 0;
+}
+.tab {
+  float: left;
+}
+.tab label {
+  background: #eee;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-left: -1px;
+  position: relative;
+  left: 1px;
+}
+.tab [type=radio] {
+  display: none;
+}
+.content {
+  position: absolute;
+  top: 28px;
+  left: 0;
+  background: white;
+  right: 0;
+  bottom: 0;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+[type=radio]:checked ~ label {
+  background: white;
+  border-bottom: 1px solid white;
+  z-index: 2;
+}
+[type=radio]:checked ~ label ~ .content {
+  z-index: 1;
+}
+
+/* Home ---------------- */
+
+.home-top-area{
+  height: 100%;
+}
+
+.browse-top-area{
+  height: 100%
+}
+
+.infoArea {
+  float: left;
+  border-style: solid;
+  border-radius: 4px;
+  margin-top: 30px;
+  padding-top: 20px;
+  min-width: 35%;
+  min-height: 80%;
+  background-color: #FFFFFF;
+  height: inherit;
+  display: none;
+}
+
+.changePasswordArea {
+  float: left;
+  border-style: solid;
+  border-radius: 4px;
+  margin-top: 30px;
+  padding-top: 20px;
+  min-width: 35%;
+  min-height: 80%;
+  background-color: #FFFFFF;
+  height: inherit;
+}
+
+.info-tag {
+  float: left;
+  padding-left: 2em;
+  display: inherit;
+}
+
+.info-userinfo {
+  text-align: left;
+  padding-left: 10em;
+  display: inherit;
+}
+
+.entireWall {
+  float: left;
+  min-width: 60%;
+  min-height: 80%;
+  margin: 15px;
+  height: inherit;
+  line-height: 150%;
+  text-align: center;
+  display: none;
+}
+
+.postArea {
+  text-align: inherit;
+  height: 15%;
+  vertical-align: middle;
+  border-style: solid;
+  border-radius: 4px;
+  padding: 5px;
+  margin: inherit;
+  line-height: inherit;
+}
+
+.wallArea {
+  text-align: inherit;
+  height: 60%;
+  vertical-align: middle;
+  border-style: solid;
+  border-radius: 4px;
+  padding: 5px;
+  margin: inherit;
+  line-height: inherit;
+  overflow: auto;
+}

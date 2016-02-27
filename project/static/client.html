@@ -1,0 +1,294 @@
+<html>
+
+<head>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
+
+  <!--         INCLUDEs                       -->
+  <link href="client.css" type="text/css" rel="stylesheet">
+  <script src="client.js" type="text/javascript"></script>
+  <script src="serverstub.js" type="text/javascript"></script>
+
+<!--         VIEWs                       -->
+  <!--- welcomeView --------------------------------------------------- --->
+  <script type="text/view" id="welcomeView">
+    <div class="wView">
+
+      <div class="logo">
+        <img src="wimage.png"></img>
+
+      </div>
+      <div class="accountArea">
+
+        <div class="signIn" id="signInArea">
+          <form action="javascript:login();">
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required/><br>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required/><br>
+             <input type="submit" value="Login">
+          </form>
+          <div class="errorArea" id="signInErrorArea">
+          </div>
+        </div>
+
+        <div class="signUp">
+          <form action="javascript:signUp();">
+            <label for="signup-firstname">First name:</label>
+            <input type="text" id="signup-firstname" name="signup-firstname" required/><br>
+            <label for="signup-lastname">Last name:</label>
+            <input type="text" id="signup-lastname" name="signup-lastname" required/><br>
+            <select id="signup-gender">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select> <br>
+            <label for="signup-city">City:</label>
+            <input type="text" id="signup-city" name="signup-city" required/><br>
+            <label for="signup-country">Country:</label>
+            <input type="text" name="signup-country" id="signup-country" required/><br>
+            <label for="signup-email">Email:</label>
+            <input type="email" name="signup-email" id="signup-email" required/><br>
+            <label for="signup-password">Password:</label>
+            <input type="password" name="signup-password" id="signup-password" required/><br>
+            <label for="signup-repeat-password">Repeat password:</label>
+            <input type="password" name="signup-repeat-password" id="signup-repeat-password" required/><br>
+             <input type="submit" value="Sign up">
+          </form>
+          <div class="signInErrorArea" id="signUpErrorArea">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </script>
+
+  <!--- profileView --------------------------------------------------- --->
+  <script type="text/view" id="profileView">
+    <div>
+      Welcome to app!<br>
+
+      <div class="tabs">
+        <div class="tab">
+          <input type="radio" id="home" name="tab-group-1" checked>
+          <label for="home">Home</label>
+          <div class="content">
+          <div id="home-top-area">
+            <div id="home-error-area" class="errorArea">
+            </div>
+            <div class="infoArea" id="home-info-area">
+
+              <div class="info-tag">
+                Email:
+              </div>
+                <div id="home-info-email" class="info-userinfo">
+              </div>
+
+              <div class="info-tag">
+                First name:
+              </div>
+                <div id="home-info-firstname" class="info-userinfo">
+              </div>
+
+              <div class="info-tag">
+                Last name:
+              </div>
+                <div id="home-info-lastname" class="info-userinfo">
+              </div>
+
+              <div class="info-tag">
+                Gender:
+              </div>
+                <div id="home-info-gender" class="info-userinfo">
+              </div>
+
+              <div class="info-tag">
+                City:
+              </div>
+                <div id="home-info-city" class="info-userinfo">
+              </div>
+
+              <div class="info-tag">
+                Country
+              </div>
+                <div id="home-info-country" class="info-userinfo">
+              </div>
+
+            </div>
+            <div class="entireWall" id="home-entire-wall-area">
+
+              <div class="postArea" id="postArea">
+                <form action="javascript:writePost();">
+                  <label for="write-post">Write post:</label>
+                  <input type="text" name="write-post" id="home-write-post" required/><br>
+                   <input type="submit" value="Write post">
+                </form>
+              </div>
+
+              <div class="wallArea" id="home-wall-area">
+              </div>
+
+            </div>
+          </div>
+          </div>
+        </div>
+        <!--- BROWSE ------------------------>
+        <div class="tab">
+          <input type="radio" id="browse" name="tab-group-1">
+          <label for="browse">Browse</label>
+          <div class="content">
+
+            <div id="browse-top-area">
+
+            <div id="browse-username-area">
+              <form action="javascript:browseUsername();">
+                <label for="write-post">Browse user:</label>
+                <input type="text" name="write-post" id="browse-username-form" required/><br>
+                 <input type="submit" value="Browse">
+              </form>
+              <div id="browse-error-area" class="errorArea">
+              </div>
+            </div>
+
+            <div class="infoArea" id="browse-info-area">
+
+              <div class="info-tag">
+                Email:
+              </div>
+                <div id="browse-info-email" class="info-userinfo">
+              </div>
+
+              <div class="info-tag">
+                First name:
+              </div>
+                <div id="browse-info-firstname" class="info-userinfo">
+              </div>
+
+              <div class="info-tag">
+                Last name:
+              </div>
+                <div id="browse-info-lastname" class="info-userinfo">
+              </div>
+
+              <div class="info-tag">
+                Gender:
+              </div>
+                <div id="browse-info-gender" class="info-userinfo">
+              </div>
+
+              <div class="info-tag">
+                City:
+              </div>
+                <div id="browse-info-city" class="info-userinfo">
+              </div>
+
+              <div class="info-tag">
+                Country
+              </div>
+                <div id="browse-info-country" class="info-userinfo">
+              </div>
+
+            </div>
+
+            <div class="entireWall" id="browse-entire-wall-area">
+
+              <div class="postArea" id="browse-post-area">
+                <form action="javascript:browseWritePost();">
+                  <label for="write-post">Write post:</label>
+                  <input type="text" name="write-post" id="browse-write-post" required/><br>
+                   <input type="submit" value="Write post">
+                </form>
+
+                <div id="browse-post-error-area" class="errorArea">
+                </div>
+              </div>
+
+              <div class="wallArea" id="browse-wall-area">
+              </div>
+
+            </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="tab">
+          <input type="radio" id="account" name="tab-group-1">
+          <label for="account">Account</label>
+          <div class="content">
+
+          <div class="infoArea" id="account-info-area">
+
+            <div class="info-tag">
+              Email:
+            </div>
+              <div id="account-info-email" class="info-userinfo">
+            </div>
+
+            <div class="info-tag">
+              First name:
+            </div>
+              <div id="account-info-firstname" class="info-userinfo">
+            </div>
+
+            <div class="info-tag">
+              Last name:
+            </div>
+              <div id="account-info-lastname" class="info-userinfo">
+            </div>
+
+            <div class="info-tag">
+              Gender:
+            </div>
+              <div id="account-info-gender" class="info-userinfo">
+            </div>
+
+            <div class="info-tag">
+              City:
+            </div>
+              <div id="account-info-city" class="info-userinfo">
+            </div>
+
+            <div class="info-tag">
+              Country
+            </div>
+              <div id="account-info-country" class="info-userinfo">
+            </div>
+            <br>
+
+            <form action="javascript:logout();">
+               <input type="submit" value="Logout">
+            </form>
+
+          </div>
+
+          <div id="account-change-area" class="changePasswordArea">
+
+            <form action="javascript:changePassword();">
+              <label for="account-old-password-post">Old password:</label>
+              <input type="password" name="Old passwotd" id="account-old-password" required/><br>
+              <label for="account-new-password">New password:</label>
+              <input type="password" name="Repeat passwotd" id="account-new-password" required/><br>
+              <label for="account-repeat-password">Repeat new password:</label>
+              <input type="password" name="Repeat passwotd" id="account-repeat-password" required/><br>
+               <input type="submit" value="Change password.">
+            </form>
+
+            <div id="account-error-area" class="errorArea">
+            </div>
+
+          </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </script>
+
+</head>
+
+<body id="body">
+
+</body>
+
+</html>
