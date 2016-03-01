@@ -163,7 +163,7 @@ def get_user_data_helper(token, email):
         return_data["email"] = user_info[0]
         return_data["firstname"] = user_info[1]
         return_data["familyname"] = user_info[2]
-        if user_info[2] == 0:
+        if user_info[3] == 0:
             return_data["gender"] = "male"
         else:
             return_data["gender"] = "female"
