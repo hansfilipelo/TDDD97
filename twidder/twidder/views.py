@@ -19,7 +19,7 @@ signed_in_users = {}
 
 @app.route("/")
 def index():
-    return "Hello"
+    return app.send_static_file("client.html")
 
 # ----------------------------
 
