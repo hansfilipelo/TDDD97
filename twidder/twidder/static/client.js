@@ -5,8 +5,9 @@ var welcomeView;
 var profileView;
 var userToken;
 var userEmail;
-var passWordMinLength = 3;
+var passWordMinLength = 1;
 var view;
+var otherUserEmail;
 
 setBody = function(view){
   document.getElementById("body").innerHTML = view.innerHTML;
@@ -48,11 +49,10 @@ function userInfo(token, currentView, email){
   xhtmlReq(userInfoCallback, {_CALL_STRING_: _USERDATA_PATH_, _TOKEN_: token});
 }
 
-// -------
+// ----------------------------
 
-wallData = function(token, view, email) {
+wallDataCallback = function(returnCode) {
   var wallArea = document.getElementById(view+"wall-area");
-  var returnCode = serverstub.getUserMessagesByEmail(token, email);
   var posts = returnCode.data;
 
   if (returnCode.success == false) {
@@ -70,59 +70,78 @@ wallData = function(token, view, email) {
       wallArea.innerHTML += "<br>";
     }
   }
+}
 
+function wallData(token, currentView, email){
+  view = currentView;
+
+  xhtmlReq(wallDataCallback, {_CALL_STRING_: _USERDATA_BY_EMAIL_PATH_, _TO_EMAIL_: email, _TOKEN_: token});
+}
+
+// ----------------------------
+
+function writePostCallback(returnCode){
+  wallData(userToken, "home-", userEmail);
 }
 
 writePost = function(){
   var post = document.getElementById("home-write-post").value;
 
-  console.log(post);
-
-  serverstub.postMessage(userToken,post,null);
-
-  wallData(userToken, "home-", userEmail);
+  xhtmlReq(writePostCallback, {_CALL_STRING_: POST_MESSAGE_PATH_, _TOKEN_: userToken, _TO_EMAIL_: otherUserEmail, _MY_EMAIL_: userEmail});
 }
 
 // ------------signIn(email,password);
 // login / logout
 
-login = function(){
+loginCallBack = function(returnCode){
+  var email = document.getElementById("email").value;
+  var errorArea = document.getElementById("signInErrorArea");
+
+  if (returnCode.success == true){
+    userEmail = email;
+    userToken = returnCode.data;
+    setBody(profileView);
+    userInfo(userToken, "home-", userEmail);
+    userInfo(userToken, "account-", userEmail);
+    wallData(userToken, "home-", userEmail);
+  }
+  else{
+    errorArea.innerHTML = returnCode.message;
+  }
+}
+
+function login(){
   var email = document.getElementById("email").value;
   var password = document.getElementById("password").value;
-
   var errorArea = document.getElementById("signInErrorArea");
 
   if (password.length < passWordMinLength){
     errorArea.innerHTML = "Password need to be at least " + passWordMinLength + " characters.";
   }
   else{
-    var returnCode = serverstub.signIn(email,password);
-
-    if (returnCode.success == true){
-      userEmail = email;
-      userToken = returnCode.data;
-      setBody(profileView);
-      userInfo(userToken, "home-", userEmail);
-      userInfo(userToken, "account-", userEmail);
-      wallData(userToken, "home-", userEmail);
-    }
-    else{
-      errorArea.innerHTML = returnCode.message;
-    }
+    xhtmlReq(loginCallBack, {_CALL_STRING_: _SIGN_IN_PATH_, _USERNAME_: email, _PASSWORD_: password});
   }
 }
 
-logout = function(){
+// ------
 
+logoutCallBack = function(returnCode){
   var welcomeView = document.getElementById("welcomeView");
-
-  serverstub.signOut(userToken);
   setBody(welcomeView);
 }
 
+function logout(){
+  xhtmlReq(logoutCallBack, {_CALL_STRING_: _SIGN_OUT_PATH_, _TOKEN_: userToken});
+}
 
 // ------------
 // sign up
+
+function signUpCallback(returnCode) {
+  var errorArea = document.getElementById("signUpErrorArea");
+
+  errorArea.innerHTML = returnCode.message
+}
 
 signUp = function(){
   var email = document.getElementById("signup-email").value;
@@ -145,29 +164,20 @@ signUp = function(){
   else{ // Sign up!
 
     var newUser = {
-      "email":email,
-      "password":password,
-      "firstname":firstName,
-      "familyname":lastName,
-      "gender":gender,
-      "city":city,
-      "country":country
+      _CALL_STRING_:_SIGN_UP_PATH_,
+      _USERNAME_:email,
+      _PASSWORD_:password,
+      _FIRST_NAME_:firstName,
+      _FAMILY_NAME_:lastName,
+      _GENDER_:gender,
+      _CITY_:city,
+      _COUNTRY_:country
     }
 
-    var returnCode = serverstub.signUp(newUser);
-
-    if (returnCode.success == true){
-      errorArea.innerHTML = "signUp succeeded."
-    }
-    else{
-      errorArea.innerHTML = returnCode.message;
-    }
-
+    xhtmlReq(signUpCallback, newUser);
   }
 }
 // -------------
-
-var otherUserEmail;
 
 browseUsername = function() {
   otherUserEmail = document.getElementById("browse-username-form").value;

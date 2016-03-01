@@ -1,7 +1,7 @@
 // Constants extracting data for call
 _CALL_STRING_ = "callstring"
 
-_USERNAME_ = "username"
+_USERNAME_ = "email"
 _PASSWORD_ = "password"
 _FIRST_NAME_ = "firstname"
 _FAMILY_NAME_ = "familyname"
@@ -32,13 +32,7 @@ _CHANGE_PASSWORD_PATH_ = "change_password"
 // -------------------------------------
 
 function xhtmlReq(callbackFunction, data){
-
-  // Set callBackFunction
-  xhttp.onreadystatechange = function() {
-    if (xhttp.readyState == 4 && xhttp.status == 200) {
-      callbackFunction(JSON.parse(xhttp.responseText));
-    }
-  }
+  var xhttp = new XMLHttpRequest()
 
   // Prepare request
   switch(data._CALL_STRING_) {
@@ -97,6 +91,14 @@ function xhtmlReq(callbackFunction, data){
     xhttp.setRequestHeader(_NEW_PASSWORD_, data._NEW_PASSWORD_);
     break;
   }
+
+  // Set callBackFunction
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      callbackFunction(JSON.parse(xhttp.responseText));
+    }
+  }
+
   // Send prepared request
   xhttp.send();
 }

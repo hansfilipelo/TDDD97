@@ -3,7 +3,7 @@
 import sqlite3
 from flask import g
 
-_DATABASE_ = 'database.sdb'
+_DATABASE_ = 'twidder/database.sdb'
 
 # Define nessecary function
 def connect_to_database():
