@@ -48,6 +48,30 @@ function userInfo(token, currentView, email){
 
   xhttpReq(userInfoCallback, {_CALL_STRING_: _USERDATA_BY_EMAIL_PATH_, _TOKEN_: token, _TO_EMAIL_: email});
 }
+// ---------------------------- Account info
+
+userInfoAccountCallback = function (returnCode) {
+  var userData = returnCode.data;
+
+  if (returnCode.success == false) {
+    document.getElementById(view+"error-area").innerHTML = returnCode.message;
+  }
+  else {
+    document.getElementById("account-info-area").style.display = "block";
+    document.getElementById("account-info-email").innerHTML = userData.email;
+    document.getElementById("account-info-firstname").innerHTML = userData.firstname;
+    document.getElementById("account-info-lastname").innerHTML = userData.familyname;
+    document.getElementById("account-info-gender").innerHTML = userData.gender;
+    document.getElementById("account-info-city").innerHTML = userData.city;
+    document.getElementById("account-info-country").innerHTML = userData.country;
+  }
+}
+
+function userInfoAccount(token, email){
+  xhttpReq(userInfoAccountCallback, {_CALL_STRING_: _USERDATA_BY_EMAIL_PATH_, _TOKEN_: token, _TO_EMAIL_: email});
+}
+
+
 
 // ----------------------------
 
@@ -87,7 +111,7 @@ function writePostCallback(returnCode){
 writePost = function(){
   var post = document.getElementById("home-write-post").value;
 
-  xhttpReq(writePostCallback, {_CALL_STRING_: POST_MESSAGE_PATH_, _TOKEN_: userToken, _TO_EMAIL_: otherUserEmail, _MY_EMAIL_: userEmail});
+  xhttpReq(writePostCallback, {_CALL_STRING_: _POST_MESSAGE_PATH_, _TOKEN_: userToken, _TO_EMAIL_: otherUserEmail, _MY_EMAIL_: userEmail});
 }
 
 // ------------signIn(email,password);
@@ -102,7 +126,7 @@ loginCallBack = function(returnCode){
     userToken = returnCode.data;
     setBody(profileView);
     userInfo(userToken, "home-", userEmail);
-    userInfo(userToken, "account-", userEmail);
+    userInfoAccount(userToken, userEmail);
     wallData(userToken, "home-", userEmail);
   }
   else{

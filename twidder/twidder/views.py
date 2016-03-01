@@ -196,8 +196,12 @@ def post_message(email):
     message = request.headers.get('content')
 
     if token in signed_in_users:
+
         from_id = query_db('SELECT idusers FROM users WHERE email=?', [get_email_from_token(token)], one=True)[0]
-        to_id = query_db('SELECT idusers FROM users WHERE email=?', [email], one=True)[0]
+        temp_to = query_db('SELECT idusers FROM users WHERE email=?', [email], one=True)
+        if temp_to:
+            to_id = temp_to[0]
+
         query_db('INSERT INTO messages(fromUser, toUser, content) VALUES(?,?,?)', [from_id, to_id, message])
         return json.dumps({"success": True, "message": "Posted message."})
 
