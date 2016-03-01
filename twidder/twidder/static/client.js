@@ -236,6 +236,19 @@ function browseWritePost(){
 
 // ----------------------
 
+function changePasswordCallback(returnCode){
+  var errorArea = document.getElementById("account-error-area");
+  var oldPasswordField = document.getElementById("account-old-password");
+  var newPasswordField = document.getElementById("account-new-password");
+  var repeatPasswordField = document.getElementById("account-repeat-password");
+  
+  errorArea.innerHTML = returnCode.message;
+  newPasswordField.value = null;
+  repeatPasswordField.value = null;
+  oldPasswordField.value = null;
+  errorArea.innerHTML = returnCode.message;
+}
+
 changePassword = function(){
   var errorArea = document.getElementById("account-error-area");
 
@@ -249,19 +262,6 @@ changePassword = function(){
   }
 
   if (newPasswordField.value == repeatPasswordField.value) {
-    var returnCode = serverstub.changePassword(userToken, oldPasswordField.value, newPasswordField.value);
-
-    if (returnCode.success) {
-      newPasswordField.value = null;
-      repeatPasswordField.value = null;
-      oldPasswordField.value = null;
-      errorArea.innerHTML = null;
-    }
-    else{
-      errorArea.innerHTML = returnCode.message;
-    }
-  }
-  else {
-    errorArea.innerHTML = "Passwords does not match!"
+    xhttpReq(changePasswordCallback, {_CALL_STRING_: _CHANGE_PASSWORD_PATH_, _OLD_PASSWORD_: oldPasswordField.value, _NEW_PASSWORD_: newPasswordField.value, _TOKEN_: userToken});
   }
 }

@@ -27,7 +27,7 @@ _USERMESSAGES_BY_EMAIL_PATH_ = "/usermessages/"
 _USERDATA_PATH_ = "/userdata"
 _USERDATA_BY_EMAIL_PATH_ = "/userdata/"
 _POST_MESSAGE_PATH_ = "/post_message/"
-_CHANGE_PASSWORD_PATH_ = "change_password"
+_CHANGE_PASSWORD_PATH_ = "/change_password"
 
 // -------------------------------------
 
