@@ -14,8 +14,7 @@ _USER_TOKEN_MAX_ = 100000
 _SALT_MIN_ = 100000
 _SALT_MAX_ = 10000000
 
-app = Flask(__name__)
-app.debug = True
+from twidder import app
 
 signed_in_users = {}
 

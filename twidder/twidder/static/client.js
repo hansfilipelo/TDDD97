@@ -6,7 +6,7 @@ var profileView;
 var userToken;
 var userEmail;
 var passWordMinLength = 3;
-var currentView;
+var view;
 
 setBody = function(view){
   document.getElementById("body").innerHTML = view.innerHTML;
@@ -42,8 +42,10 @@ userInfoCallback = function (returnCode) {
   }
 }
 
-function userInfo(){
+function userInfo(token, currentView, email){
+  view = currentView;
 
+  xhtmlReq(userInfoCallback, {_CALL_STRING_: _USERDATA_PATH_, _TOKEN_: token});
 }
 
 // -------
