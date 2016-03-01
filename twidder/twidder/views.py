@@ -90,7 +90,7 @@ def sign_up():
             query_db('INSERT INTO cities(name, country) VALUES(?,?)', [city,db_country[1]])
             db_city = query_db('select idcities from cities where name=? AND country=?', [city, db_country[1]], one=True)
 
-        query_db('INSERT INTO users(email, passwordHash, firstname, familyName, gender, city, salt) VALUES(?,?,?,?,?,?,?)', [email, hash_password(password, salt), firstname, familyName, gender, db_city[0], salt])
+        query_db('INSERT INTO users(email, passwordHash, firstname, familyName, gender, city, salt) VALUES(?,?,?,?,?,?,?)', [email, hash_password(password, salt), firstname, familyName, gender, db_city, salt])
         return json.dumps({"success": True, "message": "Sign up OK!"})
     else:
         return json.dumps({"success": false, "message": "User already exists."})
