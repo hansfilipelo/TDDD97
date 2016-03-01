@@ -46,7 +46,7 @@ userInfoCallback = function (returnCode) {
 function userInfo(token, currentView, email){
   view = currentView;
 
-  xhtmlReq(userInfoCallback, {_CALL_STRING_: _USERDATA_PATH_, _TOKEN_: token});
+  xhttpReq(userInfoCallback, {_CALL_STRING_: _USERDATA_BY_EMAIL_PATH_, _TOKEN_: token, _TO_EMAIL_: email});
 }
 
 // ----------------------------
@@ -75,7 +75,7 @@ wallDataCallback = function(returnCode) {
 function wallData(token, currentView, email){
   view = currentView;
 
-  xhtmlReq(wallDataCallback, {_CALL_STRING_: _USERDATA_BY_EMAIL_PATH_, _TO_EMAIL_: email, _TOKEN_: token});
+  xhttpReq(wallDataCallback, {_CALL_STRING_: _USERDATA_BY_EMAIL_PATH_, _TO_EMAIL_: email, _TOKEN_: token});
 }
 
 // ----------------------------
@@ -87,7 +87,7 @@ function writePostCallback(returnCode){
 writePost = function(){
   var post = document.getElementById("home-write-post").value;
 
-  xhtmlReq(writePostCallback, {_CALL_STRING_: POST_MESSAGE_PATH_, _TOKEN_: userToken, _TO_EMAIL_: otherUserEmail, _MY_EMAIL_: userEmail});
+  xhttpReq(writePostCallback, {_CALL_STRING_: POST_MESSAGE_PATH_, _TOKEN_: userToken, _TO_EMAIL_: otherUserEmail, _MY_EMAIL_: userEmail});
 }
 
 // ------------signIn(email,password);
@@ -119,7 +119,7 @@ function login(){
     errorArea.innerHTML = "Password need to be at least " + passWordMinLength + " characters.";
   }
   else{
-    xhtmlReq(loginCallBack, {_CALL_STRING_: _SIGN_IN_PATH_, _USERNAME_: email, _PASSWORD_: password});
+    xhttpReq(loginCallBack, {_CALL_STRING_: _SIGN_IN_PATH_, _USERNAME_: email, _PASSWORD_: password});
   }
 }
 
@@ -131,7 +131,7 @@ logoutCallBack = function(returnCode){
 }
 
 function logout(){
-  xhtmlReq(logoutCallBack, {_CALL_STRING_: _SIGN_OUT_PATH_, _TOKEN_: userToken});
+  xhttpReq(logoutCallBack, {_CALL_STRING_: _SIGN_OUT_PATH_, _TOKEN_: userToken});
 }
 
 // ------------
@@ -174,7 +174,7 @@ signUp = function(){
       _COUNTRY_:country
     }
 
-    xhtmlReq(signUpCallback, newUser);
+    xhttpReq(signUpCallback, newUser);
   }
 }
 // -------------
@@ -192,11 +192,9 @@ browseUsername = function() {
   wallData(userToken, "browse-", otherUserEmail);
 }
 
-browseWritePost = function() {
-  var content = document.getElementById("browse-write-post").value;
+// ------
 
-  var returnCode = serverstub.postMessage(userToken, content, otherUserEmail);
-
+browseWritePostCallback = function(returnCode) {
   if (!returnCode.success) {
     document.getElementById("browse-post-error-area").innerHTML = returnCode.message;
   }
@@ -204,9 +202,13 @@ browseWritePost = function() {
     document.getElementById("browse-post-error-area").innerHTML = null;
     wallData(userToken,"browse-", otherUserEmail);
   }
-
 }
 
+function browseWritePost(){
+  var content = document.getElementById("browse-write-post").value;
+
+  xhttpReq(browseWritePostCallback, {_CALL_STRING_: _POST_MESSAGE_PATH_, _TO_EMAIL_: otherUserEmail, _MY_EMAIL_: userEmail, _CONTENT_: content, _TOKEN_: userToken})
+}
 
 // ----------------------
 

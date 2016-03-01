@@ -31,7 +31,7 @@ _CHANGE_PASSWORD_PATH_ = "change_password"
 
 // -------------------------------------
 
-function xhtmlReq(callbackFunction, data){
+function xhttpReq(callbackFunction, data){
   var xhttp = new XMLHttpRequest()
 
   // Prepare request
@@ -82,6 +82,7 @@ function xhtmlReq(callbackFunction, data){
     xhttp.open("POST", data._CALL_STRING_+data._TO_EMAIL_, true);
     xhttp.setRequestHeader(_TOKEN_, data._TOKEN_);
     xhttp.setRequestHeader(_MY_EMAIL_, data._MY_EMAIL_);
+    xhttp.setRequestHeader(_CONTENT_, data._CONTENT_);
     break;
 
     case _CHANGE_PASSWORD_PATH_:

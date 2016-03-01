@@ -49,9 +49,9 @@ def sign_in():
             signed_in_users[token] = email
             return json.dumps({"success": True, "message": "Sign in OK", "data": token})
         else:
-            return json.dumps({"success": false, "message": "Wrong password."})
+            return json.dumps({"success": False, "message": "Wrong password."})
     else:
-        return json.dumps({"success": false, "message": "No user with that username."})
+        return json.dumps({"success": False, "message": "No user with that username."})
 
 # ----------------------------
 
@@ -193,7 +193,7 @@ def get_user_data_by_token():
 @app.route("/post_message/<email>", methods=['GET', 'POST'])
 def post_message(email):
     token = request.headers.get('token')
-    message = request.headers.get('message')
+    message = request.headers.get('content')
 
     if token in signed_in_users:
         from_id = query_db('SELECT idusers FROM users WHERE email=?', [get_email_from_token(token)], one=True)[0]
