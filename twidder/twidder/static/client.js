@@ -62,11 +62,11 @@ wallDataCallback = function(returnCode) {
     wallArea.innerHTML = null;
     document.getElementById(view+"entire-wall-area").style.display = "block";
 
-    for (var i = 0; i < posts.length; i++) {
+    for (var i = 0; i < posts.content.length; i++) {
       wallArea.innerHTML += "From: ";
-      wallArea.innerHTML += posts[i].writer;
+      wallArea.innerHTML += posts.writer[i];
       wallArea.innerHTML += " Message: ";
-      wallArea.innerHTML += posts[i].content;
+      wallArea.innerHTML += posts.content[i];
       wallArea.innerHTML += "<br>";
     }
   }
@@ -75,7 +75,7 @@ wallDataCallback = function(returnCode) {
 function wallData(token, currentView, email){
   view = currentView;
 
-  xhttpReq(wallDataCallback, {_CALL_STRING_: _USERDATA_BY_EMAIL_PATH_, _TO_EMAIL_: email, _TOKEN_: token});
+  xhttpReq(wallDataCallback, {_CALL_STRING_: _USERMESSAGES_BY_EMAIL_PATH_, _TO_EMAIL_: email, _TOKEN_: token});
 }
 
 // ----------------------------
