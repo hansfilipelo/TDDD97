@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 from __future__ import print_function
-from flask import Flask
-from flask import request
+from flask import Flask, request, render_template
 from db import *
 from flask import g
 import hashlib, uuid
@@ -19,8 +18,8 @@ from twidder import app
 signed_in_users = {}
 
 @app.route("/")
-def hello():
-  return "Hello World!"
+def index():
+    return "Hello"
 
 # ----------------------------
 
