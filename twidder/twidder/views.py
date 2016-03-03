@@ -64,7 +64,7 @@ def sign_up():
     gender = request.headers.get('gender')
     if gender == "male":
         gender = 0
-    elif gender == "female":
+    else:
         gender = 1
 
     city = request.headers.get('city')
@@ -197,6 +197,7 @@ def post_message(email):
     if token in signed_in_users:
 
         from_id = query_db('SELECT idusers FROM users WHERE email=?', [get_email_from_token(token)], one=True)[0]
+        to_id = 0
         temp_to = query_db('SELECT idusers FROM users WHERE email=?', [email], one=True)
         if temp_to:
             to_id = temp_to[0]

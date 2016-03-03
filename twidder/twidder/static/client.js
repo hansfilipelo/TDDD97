@@ -105,13 +105,22 @@ function wallData(token, currentView, email){
 // ----------------------------
 
 function writePostCallback(returnCode){
-  wallData(userToken, "home-", userEmail);
+  var errorArea = document.getElementById("browse-error-area");
+  var postField = document.getElementById("home-write-post");
+
+  if (returnCode.success) {
+    postField.value = null;
+    wallData(userToken, "home-", userEmail);
+  }
+  else {
+    errorArea.innerHTML = returnCode.message;
+  }
 }
 
 writePost = function(){
   var post = document.getElementById("home-write-post").value;
 
-  xhttpReq(writePostCallback, {_CALL_STRING_: _POST_MESSAGE_PATH_, _TOKEN_: userToken, _TO_EMAIL_: otherUserEmail, _MY_EMAIL_: userEmail});
+  xhttpReq(writePostCallback, {_CALL_STRING_: _POST_MESSAGE_PATH_, _TOKEN_: userToken, _TO_EMAIL_: userEmail, _CONTENT_: post});
 }
 
 // ------------signIn(email,password);
@@ -241,7 +250,7 @@ function changePasswordCallback(returnCode){
   var oldPasswordField = document.getElementById("account-old-password");
   var newPasswordField = document.getElementById("account-new-password");
   var repeatPasswordField = document.getElementById("account-repeat-password");
-  
+
   errorArea.innerHTML = returnCode.message;
   newPasswordField.value = null;
   repeatPasswordField.value = null;
