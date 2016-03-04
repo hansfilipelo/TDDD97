@@ -8,6 +8,7 @@ var userEmail;
 var passWordMinLength = 1;
 var view;
 var otherUserEmail;
+var webSocket;
 
 setBody = function(view){
   document.getElementById("body").innerHTML = view.innerHTML;
@@ -126,6 +127,17 @@ writePost = function(){
 // ------------signIn(email,password);
 // login / logout
 
+logoutCallBack = function(returnCode){
+  var welcomeView = document.getElementById("welcomeView");
+  setBody(welcomeView);
+}
+
+function logout(){
+  xhttpReq(logoutCallBack, {_CALL_STRING_: _SIGN_OUT_PATH_, _TOKEN_: userToken});
+}
+
+// ------
+
 loginCallBack = function(returnCode){
   var email = document.getElementById("email").value;
   var errorArea = document.getElementById("signInErrorArea");
@@ -137,6 +149,34 @@ loginCallBack = function(returnCode){
     userInfo(userToken, "home-", userEmail);
     userInfoAccount(userToken, userEmail);
     wallData(userToken, "home-", userEmail);
+
+    // Create socket for monitoring of logged-on users
+    webSocket = new WebSocket("ws://" + window.location.host + "/socket");
+
+    webSocket.onclose = function(){
+      console.log("Socket close")
+      webSocket.close();
+      logout({});
+    };
+
+    webSocket.onopen = function () {
+      webSocket.send(JSON.stringify({"token": userToken, "email": userEmail}))
+    };
+
+    WebSocket.onmessage = function(event){
+      var data = JSON.parse(event.data);
+
+      console.log(data);
+      console.log(data.token);
+      console.log(data.email);
+      console.log(userEmail);
+      console.log(userToken);
+
+      if (data.token == userToken && data.email == userEmail) {
+        console.log("here");
+        websocket.close();
+      }
+    }
   }
   else{
     errorArea.innerHTML = returnCode.message;
@@ -154,17 +194,6 @@ function login(){
   else{
     xhttpReq(loginCallBack, {_CALL_STRING_: _SIGN_IN_PATH_, _USERNAME_: email, _PASSWORD_: password});
   }
-}
-
-// ------
-
-logoutCallBack = function(returnCode){
-  var welcomeView = document.getElementById("welcomeView");
-  setBody(welcomeView);
-}
-
-function logout(){
-  xhttpReq(logoutCallBack, {_CALL_STRING_: _SIGN_OUT_PATH_, _TOKEN_: userToken});
 }
 
 // ------------

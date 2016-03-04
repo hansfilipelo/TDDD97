@@ -7,6 +7,8 @@ import hashlib, uuid
 import random
 import json
 import sys
+from time import sleep
+from geventwebsocket import WebSocketError
 
 _USER_TOKEN_MIN_ = 1000
 _USER_TOKEN_MAX_ = 100000
@@ -16,6 +18,7 @@ _SALT_MAX_ = 10000000
 from twidder import app
 
 signed_in_users = {}
+user_sockets = {}
 
 @app.route("/")
 def index():
@@ -101,6 +104,8 @@ def sign_out():
 
     if token in signed_in_users:
         del signed_in_users[token]
+        if token in user_sockets:
+            del user_sockets[token]
         return json.dumps({"success": True, "message": "Signed out."})
 
     return json.dumps({"success": False, "message": "User not signed in."})
@@ -226,6 +231,53 @@ def change_password():
             return json.dumps({"success": True, "message": "Updated password."})
         return json.dumps({"success": False, "message": "Incorrect old password"})
     return json.dumps({"success": False, "message": "User not signed in"})
+
+# ----------------------------
+# WebSocket for monitoring users
+
+@app.route('/socket')
+def api():
+    ws = request.environ.get('wsgi.websocket')
+
+    if not ws:
+        print("Not socket.")
+        return json.dumps({"success": False, "message": "Needs WebSocket request"})
+    try:
+        message = json.loads(ws.receive())
+        if "token" in message and "email" in message:
+            token = message["token"]
+            email = message["email"]
+
+            if token in signed_in_users:
+                user_sockets[token] = ws
+                for key in signed_in_users.keys():
+                    print(key)
+                    if signed_in_users[key] == email and key != token:
+                        print(2)
+                        # Sign out former browser
+                        user_sockets[key].send(json.dumps({"email": get_email_from_token(key), "token": key}))
+                        user_sockets[key].close()
+                        del user_sockets[key]
+                        del signed_in_users[key]
+                        print("Removed socket for token " + key)
+                print("Set up socket for token " + token)
+                user_sockets[token].send(json.dumps({"success":True, "message": "Set up socket."}))
+                while True:
+                    message = ws.receive()
+                    ws.send(message)
+                return json.dumps({"success":True, "message": "Set up socket."})
+            else:
+                print("Invalid token: " + token)
+                user_sockets[token].send(json.dumps({"success": False, "message": "Invalid token"}))
+                return json.dumps({"success":False, "message": "Invalid token"})
+        else:
+            print("Malformed message" + str(message))
+            user_sockets[token].send(json.dumps({"success": False, "message": str("Malformed message: " + str(message))}))
+            return json.dumps({"success": False, "message": str("Malformed message: " + str(message))})
+    except WebSocketError:
+        print("Socket error")
+        return json.dumps({"success": False, "message": "Socket error"})
+
 
 # Teardown of app
 
