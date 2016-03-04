@@ -156,7 +156,7 @@ loginCallBack = function(returnCode){
     webSocket.onclose = function(){
       console.log("Socket close")
       webSocket.close();
-      logout({});
+      logout();
     };
 
     webSocket.onopen = function () {

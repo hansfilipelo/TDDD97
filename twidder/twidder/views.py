@@ -238,6 +238,8 @@ def change_password():
 @app.route('/socket')
 def api():
     ws = request.environ.get('wsgi.websocket')
+    token = ""
+    email = ""
 
     if not ws:
         print("Not socket.")
@@ -276,6 +278,11 @@ def api():
             return json.dumps({"success": False, "message": str("Malformed message: " + str(message))})
     except WebSocketError:
         print("Socket error")
+        if token != "":
+            if token in signed_in_users:
+                del signed_in_users[token]
+                if token in user_sockets:
+                    del user_sockets[token]
         return json.dumps({"success": False, "message": "Socket error"})
 
 
