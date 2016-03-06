@@ -87,10 +87,10 @@ def sign_up():
             query_db('INSERT INTO countries(name) VALUES(?)', [country])
             db_country = query_db('select name,idcountries from countries where name=?', [country], one=True)
             query_db('INSERT INTO cities(name, country) VALUES(?,?)', [city,db_country[1]])
-            db_city = query_db('select idcities from cities where name=? AND country=?', [city, db_country[1]], one=True)
+            db_city = query_db('select idcities from cities where name=? AND country=?', [city, db_country[1]], one=True)[0]
         elif db_city == None:
             query_db('INSERT INTO cities(name, country) VALUES(?,?)', [city,db_country[1]])
-            db_city = query_db('select idcities from cities where name=? AND country=?', [city, db_country[1]], one=True)
+            db_city = query_db('select idcities from cities where name=? AND country=?', [city, db_country[1]], one=True)[0]
 
         query_db('INSERT INTO users(email, passwordHash, firstname, familyName, gender, city, salt) VALUES(?,?,?,?,?,?,?)', [email, hash_password(password, salt), firstname, familyName, gender, db_city, salt])
         return json.dumps({"success": True, "message": "Sign up OK!"})

@@ -8,6 +8,8 @@ import time
 class TwidderTester:
 
     def __init__(self, host, port, path):
+        self.__timeout_time = 3
+
         self.__email = "email"
         self.__firstname = "firstname"
         self.__lastname = "lastname"
@@ -25,7 +27,7 @@ class TwidderTester:
         self.driver.get(self.twidder_location)
 
     # -----------------------------
-    def sign_up(self, in_email="test@t.com", in_password="123", in_firstname="John", in_lastname="Doe", in_city="Linkoping", in_country="Sweden", in_gender="Male"):
+    def sign_up(self, in_email, in_password, in_firstname, in_lastname, in_city, in_country, in_gender):
         sign_up_prefix = "signup-"
         sign_up_fields = {}
 
@@ -34,6 +36,7 @@ class TwidderTester:
         for field in self.available_fields:
             sign_up_fields[field] = self.driver.find_element_by_id(sign_up_prefix+field)
 
+        # Fill out form
         sign_up_fields[self.__email].send_keys(in_email)
         sign_up_fields[self.__password].send_keys(in_password)
         sign_up_fields[self.__repeat_password].send_keys(in_password)
@@ -43,11 +46,36 @@ class TwidderTester:
         sign_up_fields[self.__country].send_keys(in_country)
         Select(sign_up_fields[self.__gender]).select_by_visible_text(in_gender)
 
-        self.driver.find_element_by_id("signup-submit").click()
+        self.driver.find_element_by_id(sign_up_prefix + "submit").click()
 
-        time.sleep(3)
+        time.sleep(self.__timeout_time)
 
+        # Assert Sign up OK! is on page
         assert "Sign up OK!" in self.driver.page_source
+
+        # Clear field so they can be used again
+        for key in sign_up_fields.keys():
+            if key != self.__gender:
+                sign_up_fields[key].clear()
+
+    # -----------------------------
+
+    def sign_in(self, in_email, in_password):
+        sign_in_prefix = ""
+
+        # Find fields
+        email_field = self.driver.find_element_by_id(sign_in_prefix+self.__email)
+        password_field = self.driver.find_element_by_id(sign_in_prefix+self.__password)
+
+        # Fill out form
+        email_field.send_keys(in_email)
+        password_field.send_keys(in_password)
+        # Submit
+        self.driver.find_element_by_id(sign_in_prefix+"submit").click()
+
+        time.sleep(self.__timeout_time)
+
+        assert in_email in self.driver.page_source
 
     # -----------------------------
 
