@@ -82,6 +82,7 @@ class TwidderTester:
     def browse_user(self, username):
         # Browse tab "is not visible" according to selenium, make it visible by javascript
         self.__driver.execute_script("document.getElementById('browse').checked = true;")
+        self.__driver.execute_script("document.getElementById('home').checked = false;")
         time.sleep(self.__timeout_time)
 
         # Fill out form
@@ -96,6 +97,21 @@ class TwidderTester:
         browse_form.clear()
 
         assert username in self.__driver.page_source
+
+    # -----------------------------
+
+    def write_post(self, message):
+        post_form = self.__driver.find_element_by_id("browse-write-post")
+        submit_button = self.__driver.find_element_by_id("browse-write-post-submit")
+
+        post_form.send_keys(message)
+        submit_button.click()
+
+        time.sleep(self.__timeout_time)
+
+        post_form.clear()
+
+        assert message in self.__driver.page_source
 
 
     def tearDown(self):

@@ -65,7 +65,7 @@
   <!--- profileView --------------------------------------------------- --->
   <script type="text/view" id="profileView">
     <div>
-      Welcome to app!<br>
+      Welcome to Twidder!<br>
 
       <div class="tabs">
         <div class="tab">
@@ -120,7 +120,7 @@
                 <form action="javascript:writePost();">
                   <label for="write-post">Write post:</label>
                   <input type="text" name="write-post" id="home-write-post" required/><br>
-                   <input type="submit" value="Write post">
+                   <input type="submit" id="home-write-post-submit" value="Write post">
                 </form>
               </div>
 
@@ -195,7 +195,7 @@
                 <form action="javascript:browseWritePost();">
                   <label for="write-post">Write post:</label>
                   <input type="text" name="write-post" id="browse-write-post" required/><br>
-                   <input type="submit" value="Write post">
+                   <input type="submit" id="browse-write-post-submit" value="Write post">
                 </form>
 
                 <div id="browse-post-error-area" class="errorArea">

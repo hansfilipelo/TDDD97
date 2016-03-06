@@ -42,3 +42,4 @@ if __name__ == "__main__":
     # Browse to user2
     tester.browse_user(user2[0])
     # Write post to user2
+    tester.write_post("You are qt!")
