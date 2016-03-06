@@ -8,7 +8,7 @@ import time
 class TwidderTester:
 
     def __init__(self, host, port, path):
-        self.__timeout_time = 3
+        self.__timeout_time = 1
 
         self.__email = "email"
         self.__firstname = "firstname"
@@ -23,8 +23,8 @@ class TwidderTester:
         self.available_fields = [self.__email, self.__firstname, self.__lastname, self.__password, self.__city, self.__country, self.__repeat_password, self.__gender]
 
         self.twidder_location = host + ":" + port + path
-        self.driver = webdriver.Firefox()
-        self.driver.get(self.twidder_location)
+        self.__driver = webdriver.Firefox()
+        self.__driver.get(self.twidder_location)
 
     # -----------------------------
     def sign_up(self, in_email, in_password, in_firstname, in_lastname, in_city, in_country, in_gender):
@@ -34,7 +34,7 @@ class TwidderTester:
         assert in_gender in ["Male", "Female"]
 
         for field in self.available_fields:
-            sign_up_fields[field] = self.driver.find_element_by_id(sign_up_prefix+field)
+            sign_up_fields[field] = self.__driver.find_element_by_id(sign_up_prefix+field)
 
         # Fill out form
         sign_up_fields[self.__email].send_keys(in_email)
@@ -46,12 +46,12 @@ class TwidderTester:
         sign_up_fields[self.__country].send_keys(in_country)
         Select(sign_up_fields[self.__gender]).select_by_visible_text(in_gender)
 
-        self.driver.find_element_by_id(sign_up_prefix + "submit").click()
+        self.__driver.find_element_by_id(sign_up_prefix + "submit").click()
 
         time.sleep(self.__timeout_time)
 
         # Assert Sign up OK! is on page
-        assert "Sign up OK!" in self.driver.page_source
+        assert "Sign up OK!" in self.__driver.page_source
 
         # Clear field so they can be used again
         for key in sign_up_fields.keys():
@@ -64,20 +64,39 @@ class TwidderTester:
         sign_in_prefix = ""
 
         # Find fields
-        email_field = self.driver.find_element_by_id(sign_in_prefix+self.__email)
-        password_field = self.driver.find_element_by_id(sign_in_prefix+self.__password)
+        email_field = self.__driver.find_element_by_id(sign_in_prefix+self.__email)
+        password_field = self.__driver.find_element_by_id(sign_in_prefix+self.__password)
 
         # Fill out form
         email_field.send_keys(in_email)
         password_field.send_keys(in_password)
         # Submit
-        self.driver.find_element_by_id(sign_in_prefix+"submit").click()
+        self.__driver.find_element_by_id(sign_in_prefix+"submit").click()
 
         time.sleep(self.__timeout_time)
 
-        assert in_email in self.driver.page_source
+        assert in_email in self.__driver.page_source
 
     # -----------------------------
 
+    def browse_user(self, username):
+        # Browse tab "is not visible" according to selenium, make it visible by javascript
+        self.__driver.execute_script("document.getElementById('browse').checked = true;")
+        time.sleep(self.__timeout_time)
+
+        # Fill out form
+        browse_form = self.__driver.find_element_by_id("browse-username-form")
+        submit_button = self.__driver.find_element_by_id("browse-submit")
+
+        browse_form.send_keys(username)
+        submit_button.click()
+
+        time.sleep(self.__timeout_time)
+
+        browse_form.clear()
+
+        assert username in self.__driver.page_source
+
+
     def tearDown(self):
-        self.driver.close()
+        self.__driver.close()

@@ -32,9 +32,13 @@ if __name__ == "__main__":
     # Fetch site
     tester = TwidderTester(twidder_host, twidder_port, twidder_path)
 
-    # Sign up
+    # Sign up with two users
     tester.sign_up(user1[0], user1[1], user1[2], user1[3], user1[4], user1[5], user1[6])
     tester.sign_up(user2[0], user2[1], user2[2], user2[3], user2[4], user2[5], user2[6])
 
-    # Sign in
+    # Sign in as user1
     tester.sign_in(user1[0], user1[1])
+
+    # Browse to user2
+    tester.browse_user(user2[0])
+    # Write post to user2
