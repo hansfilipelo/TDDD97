@@ -92,10 +92,12 @@ class TwidderTester:
         browse_form.send_keys(username)
         submit_button.click()
 
+        # Wait for propagation server-client-server
         time.sleep(self.__timeout_time)
 
+        # Clear form so that we don't get false positive
         browse_form.clear()
-
+        # Check if page contains username
         assert username in self.__driver.page_source
 
     # -----------------------------
@@ -104,14 +106,35 @@ class TwidderTester:
         post_form = self.__driver.find_element_by_id("browse-write-post")
         submit_button = self.__driver.find_element_by_id("browse-write-post-submit")
 
+        # Fill out form
         post_form.send_keys(message)
         submit_button.click()
 
+        # Wait for propagation server-client-server
         time.sleep(self.__timeout_time)
 
+        # Clear form so that we don't get false positive
         post_form.clear()
-
+        # Check if page contains message
         assert message in self.__driver.page_source
+
+    # -----------------------------
+
+    def sign_out(self):
+        # Switch tab
+        self.__driver.execute_script("document.getElementById('account').checked = true;")
+        self.__driver.execute_script("document.getElementById('browse').checked = false;")
+        self.__driver.execute_script("document.getElementById('home').checked = false;")
+        time.sleep(self.__timeout_time)
+
+        logout_button = self.__driver.find_element_by_id("logout-submit")
+        logout_button.click()
+
+        time.sleep(self.__timeout_time)
+
+        sign_in_area = self.__driver.find_element_by_id("signInArea")
+
+        assert sign_in_area.is_displayed()
 
 
     def tearDown(self):

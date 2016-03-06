@@ -43,3 +43,6 @@ if __name__ == "__main__":
     tester.browse_user(user2[0])
     # Write post to user2
     tester.write_post("You are qt!")
+
+    # Sign out
+    tester.sign_out()
