@@ -16,4 +16,5 @@ pid=$!
 cd twidder/tests
 python ./twidder_tests.py
 
+# Kill server process
 kill $pid
