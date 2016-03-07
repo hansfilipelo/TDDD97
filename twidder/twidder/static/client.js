@@ -303,3 +303,19 @@ changePassword = function(){
     xhttpReq(changePasswordCallback, {_CALL_STRING_: _CHANGE_PASSWORD_PATH_, _OLD_PASSWORD_: oldPasswordField.value, _NEW_PASSWORD_: newPasswordField.value, _TOKEN_: userToken});
   }
 }
+
+// Drag & Drop functionality
+
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+}

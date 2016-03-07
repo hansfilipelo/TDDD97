@@ -220,3 +220,10 @@ fieldset.submit
   line-height: inherit;
   overflow: auto;
 }
+
+.dragArea {
+  border-style: solid;
+  float: left;
+  width: 350px;
+  height: 70px;
+}
